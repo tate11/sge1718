@@ -2,11 +2,11 @@
 
 from odoo import models, fields, api
 
-# class modul1(models.Model):
-#     _name = 'modul1.modul1'
+class modul1(models.Model):
+     _name = 'modul1.modul1'
 
-#     name = fields.Char()
-#     value = fields.Integer()
+     name = fields.Char()
+     value = fields.Integer()
 #     value2 = fields.Float(compute="_value_pc", store=True)
 #     description = fields.Text()
 #
