@@ -1,0 +1,81 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <record model="ir.ui.view" id="task.list">
+      <field name="name">task list</field>
+      <field name="model">task.task</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="start_date"/>
+          <field name="done"/>
+          <field name="student"/>
+          <field name="country"/>
+        </tree>
+      </field>
+    </record>
+
+  <record model="ir.ui.view" id="task.form">
+            <field name="name">Task Form</field>
+            <field name="model">task.task</field>
+            <field name="arch" type="xml">
+                <form string="Task Form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="start_date"/>
+                            <field name="done"/>
+                            <field name="student"/>
+          <field name="country"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+  <record model="ir.ui.view" id="task.student_form">
+            <field name="name">Student Form</field>
+            <field name="model">task.student</field>
+            <field name="arch" type="xml">
+                <form string="student Form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="tasks"/>
+                            <field name="teachers"/>
+                            <field name="tutors"/>
+        
+          <field name="country"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    <!-- actions opening views on models -->
+    <record model="ir.actions.act_window" id="task.action_window">
+      <field name="name">task window</field>
+      <field name="res_model">task.task</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    <record model="ir.actions.act_window" id="task.student_window">
+      <field name="name">task window</field>
+      <field name="res_model">task.student</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    <record model="ir.actions.act_window" id="task.teacher_window">
+      <field name="name">task window</field>
+      <field name="res_model">task.teacher</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- Top menu item -->
+    <menuitem name="Tasks" id="task.menu_root"/>
+    <!-- menu categories -->
+    <menuitem name="Configuration" id="task.conf" parent="task.menu_root"/>
+    <!-- actions -->
+    <menuitem name="Tasks" id="task.tasks" parent="task.conf" action="task.action_window"/>
+    <menuitem name="Student" id="task.student" parent="task.conf" action="task.student_window"/>
+    <menuitem name="Teacher" id="task.teacher" parent="task.conf" action="task.teacher_window"/>
+  </data>
+</odoo>
