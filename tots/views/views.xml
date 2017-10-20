@@ -6,6 +6,7 @@
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
+          <field name="net_ip"/>
           <field name="mask"/>
           <field name="net_map"/>
           <field name="net_class"/>
@@ -20,6 +21,8 @@
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
+          <field name="number"/>
+          <field name="ip"/>
           <field name="ping"/>
           <field name="registered"/>
           <field name="uptime"/>
@@ -35,6 +38,7 @@
       <field name="arch" type="xml">
         <form><sheet><group>
           <field name="name"/>
+          <field name="net_ip"/>
           <field name="mask"/>
           <field name="net_map" widget="image"/>
           <field name="net_class"/>
@@ -49,6 +53,8 @@
       <field name="arch" type="xml">
         <form><sheet><group>
           <field name="name"/>
+          <field name="number"/>
+          <field name="ip"/>
           <field name="ping"/>
           <field name="registered"/>
           <field name="uptime"/>
