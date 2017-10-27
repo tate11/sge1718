@@ -2,7 +2,7 @@
 
 from odoo import models, fields, api
 from openerp.exceptions import ValidationError
-
+####
 class net(models.Model):
      _name = 'tots.net'
 
@@ -27,9 +27,10 @@ class pc(models.Model):
        return fields.Date.today()
 
 
-     registered = fields.Date(default=_get_date)
-     uptime = fields.Datetime(default=lambda self: fields.Datetime.now())
+     registered = fields.Date()
+     uptime = fields.Datetime()
      net = fields.Many2one('tots.net')
+     user = fields.Many2one('res.partner')
      servers = fields.Many2many('tots.net',relation='net_servers')  
 
      @api.depends('number','net')

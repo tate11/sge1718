@@ -27,6 +27,7 @@
           <field name="registered"/>
           <field name="uptime"/>
           <field name="net"/>
+          <field name="user"/>
           <field name="servers"/>
         </tree>
       </field>
@@ -59,6 +60,7 @@
           <field name="registered"/>
           <field name="uptime"/>
           <field name="net"/>
+          <field name="user"/>
           <field name="servers"/>
         </group></sheet></form>
       </field>

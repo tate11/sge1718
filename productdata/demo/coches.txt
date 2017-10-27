@@ -1,0 +1,6 @@
+1995-bmw-m3-1.jpg bmwm3 product product.product_category_all  
+217877227_2.jpg fordcapri product product.product_category_all  
+audi-quattro-2.jpg audiquattro product product.product_category_all  
+isg0whn8lwgyjnd6zlqx.jpg toyotacupra product product.product_category_all  
+lancia-delta-hf-integrale_0.jpg lanciadelta  product product.product_category_all  
+renault019.jpg renaultr5 product product.product_category_all
