@@ -1,9 +1,9 @@
 <openerp>
   <data>
 
- <record model="ir.ui.view" id="cine.sessio_form_view">
-            <field name="name">sessio.form</field>
-            <field name="model">cine.sessio</field>
+ <record model="ir.ui.view" id="cine.session_form_view">
+            <field name="name">session.form</field>
+            <field name="model">cine.session</field>
             <field name="arch" type="xml">
               <form string="Cine Form">
                 <sheet>
@@ -11,20 +11,20 @@
                     <page string="Data">
                       <group string="Main Data">
                         <field name="name"/>
-                        <field name="cine" class="oe_edit_only"/>
-                        <field name="sala"/>
-                        <field name="hora"/>
-                        <field name="dia"/>
-                        <field name="pelicula"/>
-                        <field name="duracio"/>
+                        <field name="cinema" class="oe_edit_only"/>
+                        <field name="theater"/>
+                        <field name="hour"/>
+                        <field name="day"/>
+                        <field name="movie"/>
+                        <field name="duration"/>
                       </group>
                      </page>
                     <page string="Tickets">
                       <group string="Ticket List">
-                        <field name="entrades" context="{'default_sessio':active_id}"/>
+                        <field name="tickets" context="{'default_session':active_id}"/>
 
-                        <field name="projeccio"/>
-                        <field name="percent_projeccio"/>
+                        <field name="current_projections"/>
+                        <field name="percent_current_projections"/>
                       </group>
                     </page>
                     </notebook>
@@ -32,46 +32,46 @@
                 </form>
               </field>
             </record>
- <record model="ir.ui.view" id="cine.sessio_tree_view">
-            <field name="name">sessio.tree</field>
-            <field name="model">cine.sessio</field>
+ <record model="ir.ui.view" id="cine.session_tree_view">
+            <field name="name">session.tree</field>
+            <field name="model">cine.session</field>
             <field name="arch" type="xml">
               <tree>
                         <field name="name"/>
-                        <field name="sala"/>
-                        <field name="hora"/>
-                        <field name="dia"/>
-                        <field name="pelicula"/>
-                        <field name="duracio"/>
-                        <field name="projeccio"/>
-                        <field name="percent_projeccio" widget="progressbar"/>
+                        <field name="theater"/>
+                        <field name="hour"/>
+                        <field name="day"/>
+                        <field name="movie"/>
+                        <field name="duration"/>
+                        <field name="current_projections"/>
+                        <field name="percent_current_projections" widget="progressbar"/>
                 </tree>
               </field>
             </record>
-<record model="ir.ui.view" id="cine.sessio_calendar_view">
-            <field name="name">sessio.calendar</field>
-            <field name="model">cine.sessio</field>
+<record model="ir.ui.view" id="cine.session_calendar_view">
+            <field name="name">session.calendar</field>
+            <field name="model">cine.session</field>
             <field name="arch" type="xml">
-              <calendar string="Sessions" date_start="hora" date_delay="duracio" color="cine">
-                        <field name="sala"/>
-                        <field name="pelicula"/>
-                        <field name="percent_projeccio"/>
+              <calendar string="Sessions" date_start="hour" date_delay="duration" color="cinema">
+                        <field name="theater"/>
+                        <field name="movie"/>
+                        <field name="percent_current_projections"/>
                 </calendar>
               </field>
             </record>
- <record model="ir.ui.view" id="cine.sessio_search_view">
-            <field name="name">sessio.search</field>
-            <field name="model">cine.sessio</field>
+ <record model="ir.ui.view" id="cine.session_search_view">
+            <field name="name">session.search</field>
+            <field name="model">cine.session</field>
             <field name="arch" type="xml">
               <search>
                         <field name="name"/>
-                        <field name="sala"/>
-                        <field name="hora"/>
-                        <field name="dia"/>
-			<filter name="group_by_dia" string="Group by day" context="{'group_by': 'dia'}"/>
-                        <field name="pelicula"/>
-			<filter name="hui" string="Today sessions" domain="[('dia', '=', time.strftime('%Y-%m-%d'))]"/>
-                        <field name="projeccio"/>
+                        <field name="theater"/>
+                        <field name="hour"/>
+                        <field name="day"/>
+			<filter name="group_by_day" string="Group by day" context="{'group_by': 'day'}"/>
+                        <field name="movie"/>
+			<filter name="hui" string="Today sessionns" domain="[('day', '=', time.strftime('%Y-%m-%d'))]"/>
+                        <field name="current_projections"/>
                 </search>
               </field>
             </record>

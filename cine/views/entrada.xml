@@ -1,25 +1,25 @@
 <openerp>
   <data>
 
-<record model="ir.actions.server" id="cambiar_estado_entradas_server">
+<record model="ir.actions.server" id="cambiar_estado_tickets_server">
     <field name="name">Change state</field>
-    <field name="model_id" ref="cine.model_cine_entrada"/>
+    <field name="model_id" ref="cine.model_cine_ticket"/>
     <field name="state">code</field>
     <field name="code">self.browse(cr,uid,context.get('active_ids',[])).change_state()</field>
 </record>
 
-<record model="ir.values" id="ir_cambiar_estado_entradas">
-    <field name="model_id" ref="cine.model_cine_entrada" />
+<record model="ir.values" id="ir_cambiar_estado_tickets">
+    <field name="model_id" ref="cine.model_cine_ticket" />
     <field name="name">Change State</field>
     <field name="key2">client_action_multi</field>
-    <field name="value" eval="'ir.actions.server,' + str(ref('cambiar_estado_entradas_server'))" />
+    <field name="value" eval="'ir.actions.server,' + str(ref('cambiar_estado_tickets_server'))" />
     <field name="key">action</field>
-    <field name="model">cine.entrada</field>
+    <field name="model">cine.ticket</field>
 </record>
 
- <record model="ir.ui.view" id="cine.entrada_form_view">
-            <field name="name">entrada.form</field>
-            <field name="model">cine.entrada</field>
+ <record model="ir.ui.view" id="cine.ticket_form_view">
+            <field name="name">ticket.form</field>
+            <field name="model">cine.ticket</field>
             <field name="arch" type="xml">
               <form string="Entrada Form">
                     <header>
@@ -34,17 +34,17 @@
                       <group string="Main Data">
                         <field name="name"/>
  
-                        <field name="aux_cine" class="oe_edit_only"/>
-                        <field name="aux_sala" class="oe_edit_only"/>
-                        <field name="sessio"/>
-                        <field name="butaca" 
+                        <field name="aux_cinema" class="oe_edit_only"/>
+                        <field name="aux_theater" class="oe_edit_only"/>
+                        <field name="session"/>
+                        <field name="seat" 
 			/>
 
-                        <field name="sala" class="oe_read_only"/>
-                        <field name="cine" class="oe_read_only"/>
-                        <field name="pelicula"/>
-                        <field name="preu"/>
-                        <field name="descompte"/>
+                        <field name="theater" class="oe_read_only"/>
+                        <field name="cinema" class="oe_read_only"/>
+                        <field name="movie"/>
+                        <field name="price"/>
+                        <field name="discount"/>
                       </group>
                     </page>
                     </notebook>
@@ -52,69 +52,69 @@
                 </form>
               </field>
             </record>
- <record model="ir.ui.view" id="cine.entrada_tree_view">
-            <field name="name">entrada.tree</field>
-            <field name="model">cine.entrada</field>
+ <record model="ir.ui.view" id="cine.ticket_tree_view">
+            <field name="name">ticket.tree</field>
+            <field name="model">cine.ticket</field>
             <field name="arch" type="xml">
               <tree colors="red:state=='reservada'">
                         <field name="name"/>
-                        <field name="butaca"/>
-                        <field name="sessio"/>
-                        <field name="dia"/>
-                        <field name="sala"/>
-                        <field name="cine"/>
-                        <field name="pelicula"/>
-                        <field name="preu"/>
+                        <field name="seat"/>
+                        <field name="session"/>
+                        <field name="day"/>
+                        <field name="theater"/>
+                        <field name="cinema"/>
+                        <field name="movie"/>
+                        <field name="price"/>
                         <field name="state"/>
                 </tree>
               </field>
             </record>
- <record model="ir.ui.view" id="cine.entrada_graph_view">
-            <field name="name">entrada.graph</field>
-            <field name="model">cine.entrada</field>
+ <record model="ir.ui.view" id="cine.ticket_graph_view">
+            <field name="name">ticket.graph</field>
+            <field name="model">cine.ticket</field>
             <field name="arch" type="xml">
 		<graph string="Takings" type="line" >
-                        <field name="dia" interval="day"/>
-                        <field name="preu_graph" type="measure"/>
+                        <field name="day" interval="day"/>
+                        <field name="price_graph" type="measure"/>
                 </graph>
               </field>
             </record>
- <record model="ir.ui.view" id="cine.entrada_search_view">
-            <field name="name">entrada.search</field>
-            <field name="model">cine.entrada</field>
+ <record model="ir.ui.view" id="cine.ticket_search_view">
+            <field name="name">ticket.search</field>
+            <field name="model">cine.ticket</field>
             <field name="arch" type="xml">
               <search>
                         <field name="name"/>
-                        <field name="sessio"/>
-                        <field name="sala"/>
-                        <field name="cine"/>
-                        <field name="pelicula"/>
-                        <field name="butaca"/>
-                        <field name="preu"/>
+                        <field name="session"/>
+                        <field name="theater"/>
+                        <field name="cinema"/>
+                        <field name="movie"/>
+                        <field name="seat"/>
+                        <field name="price"/>
                         <filter name="group_by_sessio" string="Group by session" context="{'group_by': 'sessio'}"/>
-                        <filter name="group_by_dia" string="Group by Day" context="{'group_by': 'dia'}"/>
-                        <filter name="group_by_sala" string="Group by theater" context="{'group_by': 'sala'}"/>
-                        <filter name="group_by_cine" string="Group by cinema" context="{'group_by': 'cine'}"/>
-                        <filter name="group_by_pelicula" string="Group by Movie" context="{'group_by': 'pelicula'}"/>
+                        <filter name="group_by_day" string="Group by Day" context="{'group_by': 'day'}"/>
+                        <filter name="group_by_theater" string="Group by theater" context="{'group_by': 'theater'}"/>
+                        <filter name="group_by_cinema" string="Group by cinema" context="{'group_by': 'cinema'}"/>
+                        <filter name="group_by_movie" string="Group by Movie" context="{'group_by': 'movie'}"/>
 			<filter name="reservades" string="Reserved" domain="[('state', '=', 'reservada')]"/>
 			<filter name="noreservades" string="Created" domain="[('state', '=', 'creada')]"/>
 			<filter name="pagades" string="Paid" domain="[('state', '=', 'pagada')]"/>
 			<filter name="nopagades" string="Not Paid" domain="[('state', '!=', 'pagada')]"/>
-			<filter name="nopasades" string="in Date" domain="[('sessio.dia', '>', time.strftime('%Y-%m-%d'))]"/>
+			<filter name="nopasades" string="in Date" domain="[('session.day', '>', time.strftime('%Y-%m-%d'))]"/>
                 </search>
               </field>
             </record>
 
-<report id="report_session" model="cine.entrada" string="Tickets" name="cine.report_entradas" file="cine.report_entrada" report_type="qweb-pdf" />
+<report id="report_session" model="cine.ticket" string="Tickets" name="cine.report_tickets" file="cine.report_ticket" report_type="qweb-pdf" />
  
-    <template id="report_entradas">
+    <template id="report_tickets">
         <t t-call="report.html_container">
             <t t-foreach="docs" t-as="doc">
                 <t t-call="report.external_layout">
                     <div class="page">
                         <h2 t-field="doc.name"/>
                         <h3>Movie:</h3>
-                        <p><span t-field="doc.pelicula.name"/></p>
+                        <p><span t-field="doc.movie.name"/></p>
                     </div>
                 </t>
             </t>

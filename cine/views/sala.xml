@@ -1,16 +1,16 @@
 <openerp>
   <data>
 
-     <record model="ir.ui.view" id="wizard_butaques_view">
-            <field name="name">wizard.butaques</field>
-            <field name="model">cine.wiz_butaques</field>
+     <record model="ir.ui.view" id="wizard_seats_view">
+            <field name="name">wizard.seats</field>
+            <field name="model">cine.wiz_seats</field>
             <field name="arch" type="xml">
-                <form string="Select Butaques">
-                        <field name="sala"/>
-                        <field name="files"/>
-                        <field name="butaques"/>
+                <form string="Select Seats">
+                        <field name="theater"/>
+                        <field name="rows"/>
+                        <field name="seats"/>
                     <footer>
-                        <button name="crear" type="object"  string="Launch" class="oe_highlight"/>
+                        <button name="create" type="object"  string="Launch" class="oe_highlight"/>
                         
                         <button special="cancel" string="Cancel"/>
                     </footer>
@@ -18,33 +18,33 @@
                 </form>
             </field>
         </record>
-        <act_window id="launch_butaques_wizard"
+        <act_window id="launch_seats_wizard"
                     name="Create Seats"
-                    src_model="cine.sala"
-                    res_model="cine.wiz_butaques"
+                    src_model="cine.theater"
+                    res_model="cine.wiz_seats"
                     view_mode="form"
                     target="new"
                     key2="client_action_multi"/>
 
- <record model="ir.ui.view" id="cine.sala_form_view">
-            <field name="name">sala.form</field>
-            <field name="model">cine.sala</field>
+ <record model="ir.ui.view" id="cine.theater_form_view">
+            <field name="name">theater.form</field>
+            <field name="model">cine.theater</field>
             <field name="arch" type="xml">
               <form string="Sala Form">
                <header>
- <button name="%(launch_butaques_wizard)d" type="action" string="Create Seats" class="oe_highlight" />
+ <button name="%(launch_seats_wizard)d" type="action" string="Create Seats" class="oe_highlight" />
 		</header>
                 <sheet>
                   <notebook>
                     <page string="Data">
                       <group string="Main Data">
                         <field name="name"/>
-                        <field name="cine"/>
+                        <field name="cinema"/>
                       </group>
                     </page>
                     <page string="Seats">
                       <group string="Seats List">
-                        <field name="butaques" context="{'default_sala':active_id}"/>
+                        <field name="seats" context="{'default_theater':active_id}"/>
                       </group>
                       </page>
                     </notebook>
@@ -52,25 +52,25 @@
                 </form>
               </field>
             </record>
- <record model="ir.ui.view" id="cine.sala_tree_view">
-            <field name="name">sala.tree</field>
-            <field name="model">cine.sala</field>
+ <record model="ir.ui.view" id="cine.theater_tree_view">
+            <field name="name">theater.tree</field>
+            <field name="model">cine.theater</field>
             <field name="arch" type="xml">
               <tree>
                         <field name="name"/>
-                        <field name="cine"/>
-                        <field name="butaques"/>
+                        <field name="cinema"/>
+                        <field name="seats"/>
                 </tree>
               </field>
             </record>
- <record model="ir.ui.view" id="cine.sala_search_view">
-            <field name="name">sala.search</field>
-            <field name="model">cine.sala</field>
+ <record model="ir.ui.view" id="cine.theater_search_view">
+            <field name="name">theater.search</field>
+            <field name="model">cine.theater</field>
             <field name="arch" type="xml">
               <search>
                         <field name="name"/>
-                        <field name="cine"/>
-                        <filter name="group_by_cinema" string="Group by cinema" context="{'group_by': 'cine'}"/>
+                        <field name="cinema"/>
+                        <filter name="group_by_cinema" string="Group by cinema" context="{'group_by': 'cinema'}"/>
                 </search>
               </field>
             </record>

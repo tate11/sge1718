@@ -1,5 +1,5 @@
 <openerp><data>
-<record id="agitese_antes_de_usarla" model="cine.pelicula">
+<record id="agitese_antes_de_usarla" model="cine.movie">
 <field name="name">agitese antes de usarla</field>
 <field name="poster">/9j/4AAQSkZJRgABAQEAYABgAAD//gA7Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcg
 SlBFRyB2ODApLCBxdWFsaXR5ID0gNzUK/9sAQwAIBgYHBgUIBwcHCQkICgwUDQwLCwwZEhMPFB0a
@@ -2879,7 +2879,7 @@ Ln2oopCG/wAOaB0oooGLinUUUCFIAxxTdo27u9FFBQh+UDHc0vQiiigB2OKaeg9qKKAFzhs0ufai
 ikAmeaOmKKKAFPABpB83ynpRRTAU9jTCeQfWiikAhPzUrd6KKAEzk9BSA4zRRQhi5wSKcVAxRRTE
 MJyDTsDb056ZoooACcDNAY9fWiigBWYhRSjp070UUgEHrTR8xwaKKAFPy4AoXnHvRRQAnQfpQnNF
 FACgbupoI6GiigBo70oOQM96KKAEPXpRRRQB/9k=</field></record>
-<record id="al_este_del_oeste" model="cine.pelicula">
+<record id="al_este_del_oeste" model="cine.movie">
 <field name="name">al este del oeste</field>
 <field name="poster">/9j/4AAQSkZJRgABAQEAYABgAAD//gA7Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcg
 SlBFRyB2ODApLCBxdWFsaXR5ID0gNzUK/9sAQwAIBgYHBgUIBwcHCQkICgwUDQwLCwwZEhMPFB0a
@@ -3830,7 +3830,7 @@ gMuo9M/9sq5vQ/jLPo91BINJklhiaRmh+2kBsrx1Q4wcn8aV2kB9SRbhEiuwZgoDHPU96kBHTIzX
 y/8A8Lwv54tQWXT5wLm4SUGO92GNR1QHZ3HGan0748Xdlqb3U2kS3MJRTHC99gqwXaSW8vkHrjA5
 pW1A7v8AaL/5J/Yf9hWP/wBFS0V5h8Rvi6PH3h630s6F9h8q6W5837X5ucI67cbF/v5zntRSSA//
 2Q==</field></record>
-<record id="cristobal_colon_de_oficio_descubridor" model="cine.pelicula">
+<record id="cristobal_colon_de_oficio_descubridor" model="cine.movie">
 <field name="name">cristobal colon de oficio descubridor</field>
 <field name="poster">/9j/4AAQSkZJRgABAQEAYABgAAD//gA7Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcg
 SlBFRyB2ODApLCBxdWFsaXR5ID0gNzUK/9sAQwAIBgYHBgUIBwcHCQkICgwUDQwLCwwZEhMPFB0a
@@ -5757,7 +5757,7 @@ r54ooDmZ9Ej9myxxz4juM+1sv/xVL/wzbY5/5GO4x/17L/8AFV860UBzM+ih+zbp/wD0Mdz/AOAy
 0uVFutO1rn0kf2d7Arg+ILnp/wA+6/40w/s4aYRg+Ibr/wAB1/xr5vpaailsKVWct2fR/wDwzbpP
 /QfvP+/K/wCNA/Zu0gdfEF7/AN+Ur5wooIuz3P4o+B7bwJ8KYLG2vJbpZ9bjlLSKFI/cSjHH0orw
 uigR/9k=</field></record>
-<record id="El_currante" model="cine.pelicula">
+<record id="El_currante" model="cine.movie">
 <field name="name">El currante</field>
 <field name="poster">/9j/4AAQSkZJRgABAQAAAQABAAD/4QAqRXhpZgAASUkqAAgAAAABADEBAgAHAAAAGgAAAAAAAABH
 b29nbGUAAP/bAIQAAwICCggICgoICQgICggICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI
@@ -6434,7 +6434,7 @@ Kgd0A+PDDUUHPoHbgfGBhAPrwRA7cL/PRCidAN59C7YL4yiAOh6Heegu2I/zwBpw3Gj8uj/PCh0Q
 rHIV1SY5HPBg7mpjlNPOj3z70uhRUPLeV8iP1uEFDYADwQAE9KADkAAhQFEOgCDwAEh40ABsAAgA
 UQAJ4ABAAjNwwAEQACAAQACGoAhABAAIUAqHQAgANhqAIQAQACFAKh0AIADYADw8MAC0ENQD4QA2
 ABRAAdAA01u4gv8AF/8A9JgA/9k=</field></record>
-<record id="los_autonomicos" model="cine.pelicula">
+<record id="los_autonomicos" model="cine.movie">
 <field name="name">los autonomicos</field>
 <field name="poster">/9j/4AAQSkZJRgABAgAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
 HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
@@ -7359,7 +7359,7 @@ FKaBQA3FLiloFIBMUoFO7Ud6YhMUuM0d6WkAhHFMxUh6U0UDGkUYpxopgNIFJinHrRQAmKMU6kpA
 NxUc9vFcoFlTcB0qaigComnWsbh1hXcOhOTirOKdSUAJijbTqX0oAbikxT6SgBNtIFp1AoATFGKd
 SUAGKMUtFDAbijFOopAJijFOpKYCEUgXmnGgdaAG4oxS0UAJijFLRQAYoxS0UAJSjpRSigAooooA
 /9k=</field></record>
-<record id="los_bingueros" model="cine.pelicula">
+<record id="los_bingueros" model="cine.movie">
 <field name="name">los bingueros</field>
 <field name="poster">/9j/4AAQSkZJRgABAQEAYABgAAD//gA7Q1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcg
 SlBFRyB2ODApLCBxdWFsaXR5ID0gNzUK/9sAQwAIBgYHBgUIBwcHCQkICgwUDQwLCwwZEhMPFB0a
@@ -10299,7 +10299,7 @@ w+q0zzT/AIV/qn/Pa0/77f8Awo/4V/qp/wCW9p/32/8AhXpdFP6lSD6rTOb8KaJc6JZTxXLRs0km
 KACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoooo
 AKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigA
 ooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKgAoooqwCiiigD//2Q==</field></record>
-<record id="los_energeticos" model="cine.pelicula">
+<record id="los_energeticos" model="cine.movie">
 <field name="name">los energeticos</field>
 <field name="poster">/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0a
 HBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIy
@@ -12865,7 +12865,7 @@ zS0mKMUALRRzRzQAUUc0c0AFFHNHNABRRzRzQAUUc0c0AFFHNHNABRRzRzQAUUc0c0AFFHNHNABR
 RzRzQAUUc0c0AFFHNHNAAaSloxQAmKBS80YoAKKOaBQAUUUc0AFFHNHNABRRzRzQAUUc0c0AFFHN
 HNABRRzRzQAUUc0c0AFFHNHNABRRzRzQAUUc0c0AFFHNHNABRRzRzQAUUc0c0AFFHNHNABRRzRzQ
 AUUc0c0AFFHNHNABRRzRzQAUUc0c0AFFHNHNABRRzRzQAUUc0c0AFFApaAP/2Q==</field></record>
-<record id="yo_hice_a_roque_III" model="cine.pelicula">
+<record id="yo_hice_a_roque_III" model="cine.movie">
 <field name="name">yo hice a roque III</field>
 <field name="poster">/9j/4AAQSkZJRgABAgEAAAAAAAD/7gAOQWRvYmUAZAAAAAAB/+wAEUR1Y2t5AAEABAAAADwAAP/b
 AEMABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoKDBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxsc

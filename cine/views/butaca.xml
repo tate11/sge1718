@@ -2,9 +2,9 @@
   <data>
 
 
- <record model="ir.ui.view" id="cine.butaca_form_view">
-            <field name="name">butaca.form</field>
-            <field name="model">cine.butaca</field>
+ <record model="ir.ui.view" id="cine.seat_form_view">
+            <field name="name">seat.form</field>
+            <field name="model">cine.seat</field>
             <field name="arch" type="xml">
               <form string="Butaca Form">
                 <sheet>
@@ -12,9 +12,9 @@
                     <page string="Data">
                       <group string="Main Data">
                        <field name="name"/> 
-                        <field name="fila"/>
-                        <field name="butaca"/>
-                        <field name="sala"/>
+                        <field name="row"/>
+                        <field name="seat"/>
+                        <field name="theater"/>
 
                       </group>
                     </page>
@@ -23,15 +23,15 @@
                 </form>
               </field>
             </record>
- <record model="ir.ui.view" id="cine.butaca_tree_view">
-            <field name="name">butaca.tree</field>
-            <field name="model">cine.butaca</field>
+ <record model="ir.ui.view" id="cine.seat_tree_view">
+            <field name="name">seat.tree</field>
+            <field name="model">cine.seat</field>
             <field name="arch" type="xml">
               <tree>
                         <field name="name"/>
-                        <field name="fila"/>
-                        <field name="butaca"/>
-                        <field name="sala"/>
+                        <field name="row"/>
+                        <field name="seat"/>
+                        <field name="theater"/>
                 </tree>
               </field>
             </record>

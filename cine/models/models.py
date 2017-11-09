@@ -5,219 +5,219 @@ from dateutil.relativedelta import *
 from openerp.exceptions import ValidationError
 from datetime import timedelta, datetime
 
-class cine(models.Model):
-     _name = 'cine.cine'
+class cinema(models.Model):
+     _name = 'cine.cinema'
 
      name = fields.Char()
-     pais = fields.Many2one('res.country', string='Country')
-     direccio = fields.Char(string='Address')
+     country = fields.Many2one('res.country', string='Country')
+     address = fields.Char(string='Address')
      description = fields.Text()
-     sales = fields.One2many('cine.sala','cine',string='Theaters')
-     empleats = fields.Many2many('hr.employee',string='Employees') 
-     en_cartell = fields.Many2many('cine.pelicula',compute='_get_cartellera',string='Billboard') 
-     sessions = fields.Many2many('cine.sessio',compute='_get_cartellera',string='Sessions') 
-     projeccio = fields.Many2many('cine.sessio',compute='_get_cartellera',string='Current Projections') 
+     theaters = fields.One2many('cine.theater','cinema',string='Theaters')
+     employees = fields.Many2many('hr.employee',string='Employees') 
+     billboard = fields.Many2many('cine.movie',compute='_get_billbera',string='Billboard') 
+     sessions = fields.Many2many('cine.session',compute='_get_billbera',string='Sessions') 
+     current_projections = fields.Many2many('cine.session',compute='_get_billbera',string='Current Projections') 
      #programacio (queda la vista i mostrar progrés)
      @api.multi
-     def _get_cartellera(self):
-      hui = fields.date.today()
-      ara = fields.datetime.now()
-      hui7 = fields.date.today()+relativedelta(days=+7)
+     def _get_billbera(self):
+      today = fields.date.today()
+      now = fields.datetime.now()
+      today7 = fields.date.today()+relativedelta(days=+7)
       for cine in self:
-       cartell = self.env['cine.sessio'].search([('sala.cine.id','=',cine.id),('dia','>=',hui),('dia','<',hui7)])
-       sessions = self.env['cine.sessio'].search([('sala.cine.id','=',cine.id),('dia','=',hui)])
-       projeccio = self.env['cine.sessio'].search([('sala.cine.id','=',cine.id),('dia','=',hui)])
-       llista = []
-       for p in projeccio:
+       billb = self.env['cine.session'].search([('theater.cinema.id','=',cine.id),('day','>=',today),('day','<',today7)])
+       sessions = self.env['cine.session'].search([('theater.cinema.id','=',cine.id),('day','=',today)])
+       current_projections = self.env['cine.session'].search([('theater.cinema.id','=',cine.id),('day','=',today)])
+       aux_list = []
+       for p in current_projections:
          if p.projectantse(p.id):
-           llista.append(p.id)
-       cine.en_cartell=cartell.mapped('pelicula.id')
+           aux_list.append(p.id)
+       cine.billboard=billb.mapped('movie.id')
        cine.sessions=sessions.ids
-       cine.projeccio=llista
+       cine.current_projections=aux_list
 
 
-class sala(models.Model):
-     _name = 'cine.sala'
+class theater(models.Model):
+     _name = 'cine.theater'
 
      name = fields.Char()
-     cine = fields.Many2one('cine.cine',string='Cinema',ondelete='cascade')
-     butaques = fields.One2many('cine.butaca','sala',string='Seats')
+     cinema = fields.Many2one('cine.cinema',string='Cinema',ondelete='cascade')
+     seats = fields.One2many('cine.seat','theater',string='Seats')
 
-class sessio(models.Model):
-     _name = 'cine.sessio'
+class session(models.Model):
+     _name = 'cine.session'
 
-     name = fields.Char(compute='_get_dia',store=True)
-     sala = fields.Many2one('cine.sala',string='Theater',ondelete='set null')
-     cine = fields.Many2one('cine.cine',store=False,string='Cinema')
-     hora = fields.Datetime('Hour')
-     dia = fields.Date(compute='_get_dia',store=True,string='Day')
-     duracio = fields.Float(related='pelicula.duracio',string='Duration')
-     pelicula = fields.Many2one('cine.pelicula',string='Movie',ondelete='restrict')
-     pelicula_poster = fields.Binary(related='pelicula.poster',string='Movie poster')
-     entrades = fields.One2many('cine.entrada','sessio', string='Tickets')
-     projeccio = fields.Boolean(compute='_get_projeccio',store=False, string='Projection')
-     percent_projeccio = fields.Float(compute='_get_projeccio',store=False, string='% Projection')
+     name = fields.Char(compute='_get_day',store=True)
+     theater = fields.Many2one('cine.theater',string='Theater',ondelete='set null')
+     cinema = fields.Many2one('cine.cinema',store=False,string='Cinema')
+     hour = fields.Datetime('Hour')
+     day = fields.Date(compute='_get_day',store=True,string='Day')
+     duration = fields.Float(related='movie.duration',string='Duration')
+     movie = fields.Many2one('cine.movie',string='Movie',ondelete='restrict')
+     movie_poster = fields.Binary(related='movie.poster',string='Movie poster')
+     tickets = fields.One2many('cine.ticket','session', string='Tickets')
+     current_projections = fields.Boolean(compute='_get_current_projections',store=False, string='Projection')
+     percent_current_projections = fields.Float(compute='_get_current_projections',store=False, string='% Projection')
 
-     @api.onchange('cine')
-     def _filter_sala(self):
-      #print self.cine
-      return { 'domain': {'sala': [('cine','=',self.cine.id)]} }     
+     @api.onchange('cinema')
+     def _filter_theater(self):
+      #print self.cinema
+      return { 'domain': {'theater': [('cinema','=',self.cine.id)]} }     
 
 
-     @api.depends('sala','hora','pelicula')
-     def _get_dia(self):
+     @api.depends('theater','hour','movie')
+     def _get_day(self):
        for r in self:
-         nombre="aun sin nombre"
-         if r.sala and r.pelicula and r.hora:
-           nombre=r.sala.name+" / "+r.pelicula.name+" / "+str(r.hora)
-         r.name=nombre
-         if r.hora:
-           r.dia=r.hora
-         r.name=nombre
+         name="aun sin name"
+         if r.theater and r.movie and r.hour:
+           name=r.theater.name+" / "+r.movie.name+" / "+str(r.hour)
+         r.name=name
+         if r.hour:
+           r.day=r.hour
+         r.name=name
 
-     @api.depends('hora')
-     def _get_projeccio(self):
+     @api.depends('hour')
+     def _get_current_projections(self):
       for p in self:
         pro=self.projectantse(p.id)
-        p.projeccio=pro
+        p.current_projections=pro
         if pro==True:
          fmt = '%Y-%m-%d %H:%M:%S'
-         d1 = datetime.strptime(p.hora, fmt)
+         d1 = datetime.strptime(p.hour, fmt)
          d2 = datetime.strptime(fields.Datetime.now(), fmt)
          print str(d1)+"-----"+str(d2)
 
          minsDiff = (d2-d1).seconds/60
          print minsDiff
-         percent=tools.float_round((minsDiff/(p.pelicula.duracio*60))*100,precision_rounding=0.01)
+         percent=tools.float_round((minsDiff/(p.movie.duration*60))*100,precision_rounding=0.01)
         else:
          percent=0
-        p.percent_projeccio = percent
+        p.percent_current_projections = percent
         
 
      def projectantse(self,id):
-       p = self.env['cine.sessio'].browse(id);
-       if p.hora:
-        fin = fields.Datetime.from_string(p.hora)+timedelta(hours=p.pelicula.duracio)
-        #print type(fields.Datetime.from_string(p.hora))
+       p = self.env['cine.session'].browse(id);
+       if p.hour:
+        fin = fields.Datetime.from_string(p.hour)+timedelta(hours=p.movie.duration)
+        #print type(fields.Datetime.from_string(p.hour))
         #print type(datetime.now())
-        if fields.Datetime.from_string(p.hora) <= datetime.now() and fin >= datetime.now():
+        if fields.Datetime.from_string(p.hour) <= datetime.now() and fin >= datetime.now():
        	 return True
         else:
          return False
        else:
         return False
      
-class pelicula(models.Model):
-     _name = 'cine.pelicula'
+class movie(models.Model):
+     _name = 'cine.movie'
      name = fields.Char()
      director = fields.Char()
-     estreno = fields.Date('Release')
+     premiere = fields.Date('Release')
      poster = fields.Binary()
-     sessions = fields.One2many('cine.sessio','pelicula')
-     preu = fields.Float(default=7,string='Price') 
-     duracio = fields.Float('Duration')
-     encartell = fields.Boolean('Billboard') 
+     sessions = fields.One2many('cine.session','movie')
+     price = fields.Float(default=7,string='Price') 
+     duration = fields.Float('Duration')
+     enbillb = fields.Boolean('Billboard') 
      # La manera poc elegant però efectiva de poder buscar en fields computed 
-     encartell2 = fields.Boolean(compute='_get_encartell',store=False,string='Billboard')
+     enbillb2 = fields.Boolean(compute='_get_enbillb',store=False,string='Billboard')
 
-     def _get_encartell(self):
+     def _get_enbillb(self):
       for p in self:
-       session_posteriors=self.env['cine.sessio'].search_count([('hora','>',fields.Datetime.now()),('pelicula','=',p.id)])
-       #print session_posteriors.mapped('name'))
-       c =  (session_posteriors > 0)
-       p.write({'encartell':c})
-       p.encartell2 = c      
+       sessionn_posteriors=self.env['cine.session'].search_count([('hour','>',fields.Datetime.now()),('movie','=',p.id)])
+       #print sessionn_posteriors.mapped('name'))
+       c =  (sessionn_posteriors > 0)
+       p.write({'enbillb':c})
+       p.enbillb2 = c      
 
-class butaca(models.Model):
-     _name = 'cine.butaca'
+class seat(models.Model):
+     _name = 'cine.seat'
      
      name = fields.Char(string="Position", compute='_get_position',store=True)
-     fila = fields.Integer('Row')
-     butaca = fields.Integer('Seat')
-     sala = fields.Many2one('cine.sala',string='Theater',ondelete='cascade')
-     @api.depends('fila','butaca')
+     row = fields.Integer('Row')
+     seat = fields.Integer('Seat')
+     theater = fields.Many2one('cine.theater',string='Theater',ondelete='cascade')
+     @api.depends('row','seat')
      def _get_position(self):
        for r in self:
-         if  r.fila and r.butaca:
-           r.name="Fila: "+str(r.fila)+", Butaca: "+str(r.butaca)
+         if  r.row and r.seat:
+           r.name="Fila: "+str(r.row)+", Butaca: "+str(r.seat)
 
-class entrada(models.Model):
-      _name = 'cine.entrada'
+class ticket(models.Model):
+      _name = 'cine.ticket'
      
       name = fields.Char(string="Identification", compute='_get_id')
-      butaca = fields.Many2one('cine.butaca',string='Seat', ondelete='set null')
-      sessio = fields.Many2one('cine.sessio',string='Session')
-      dia = fields.Date(related='sessio.dia',string='Dia', store=True) # per al graph
-      aux_cine = fields.Many2one('cine.cine',store=False,string='Cinema')
-      aux_sala = fields.Many2one('cine.sala',store=False,string='Theater')
-      sala = fields.Many2one('cine.sala',related='sessio.sala',store=True,readonly=True,string='Theater')
-      cine = fields.Many2one('cine.cine',related='sessio.sala.cine',store=True,readonly=True,string='Cinema')
-      pelicula = fields.Many2one('cine.pelicula',related='sessio.pelicula',store=True,readonly=True,string='Movie')
-      preu_graph = fields.Float(related='pelicula.preu', string='recaptacio' ,store=True) # per al graph
-      preu = fields.Float('Price',compute="_get_price",search='_search_price',inverse='_set_price') 
+      seat = fields.Many2one('cine.seat',string='Seat', ondelete='set null')
+      session = fields.Many2one('cine.session',string='Session')
+      day = fields.Date(related='session.day',string='Dia', store=True) # per al graph
+      aux_cinema = fields.Many2one('cine.cinema',store=False,string='Cinema')
+      aux_theater = fields.Many2one('cine.theater',store=False,string='Theater')
+      theater = fields.Many2one('cine.theater',related='session.theater',store=True,readonly=True,string='Theater')
+      cinema = fields.Many2one('cine.cinema',related='session.theater.cinema',store=True,readonly=True,string='Cinema')
+      movie = fields.Many2one('cine.movie',related='session.movie',store=True,readonly=True,string='Movie')
+      price_graph = fields.Float(related='movie.price', string='recaptacio' ,store=True) # per al graph
+      price = fields.Float('Price',compute="_get_price",search='_search_price',inverse='_set_price') 
       state = fields.Selection([
         ('creada', "Created"),
         ('reservada', "Reserved"),
         ('pagada', "Paid"),
       ], default='creada')
-      descompte = fields.Selection([
+      discount = fields.Selection([
         (0, "None"),
         (10, "Carnet Jove"),
         (20, "< 6 years"),
         (30, "Bonus"),
       ], default=0)
 
-      @api.depends('butaca','sessio')
+      @api.depends('seat','session')
       def _get_id(self):
        for r in self:
-         if r.sessio and r.butaca:
-          r.name=r.butaca.sala.name+" "+r.butaca.name+": "+str(r.sessio.hora)
+         if r.session and r.seat:
+          r.name=r.seat.theater.name+" "+r.seat.name+": "+str(r.session.hour)
 
-      @api.depends('pelicula','descompte')
+      @api.depends('movie','discount')
       def _get_price(self):
         for r in self:
-          price = r.pelicula.preu
-          price = price - (price*r.descompte/100)
-          r.preu = price
+          price = r.movie.price
+          price = price - (price*r.discount/100)
+          r.price = price
 
       def _search_price(self,operator,value): # De moment aquest search sols és per a ==
-       preus = self.search([]).mapped(lambda e: [e.id , e.pelicula.preu - (e.pelicula.preu*e.descompte/100)]) # Un bon exemple de mapped en lambda
-       print preus
-       p = [ num[0] for num in preus if num[1] == value]  # condició if en una llista python sense fer un for (list comprehension)
+       prices = self.search([]).mapped(lambda e: [e.id , e.movie.price - (e.movie.price*e.discount/100)]) # Un bon exemple de mapped en lambda
+       print prices
+       p = [ num[0] for num in prices if num[1] == value]  # condició if en una aux_list python sense fer un for (list comprehension)
        # també es pot provar en un filter() de python
        print p
-       # p és una llista de les id que ja compleixen la condició, per tant sols cal fer que la id estiga en la llista.
+       # p és una aux_list de les id que ja compleixen la condició, per tant sols cal fer que la id estiga en la aux_list.
        return [('id','in',p)]
 
       def _set_price(self):
-       self.pelicula.preu = self.preu  # Açò és un exemple, però està mal, ja que modifiques el preu de la peli en totes les sessions
+       self.movie.price = self.price  # Açò és un exemple, però està mal, ja que modifiques el price de la peli en totes les sessions
 
 
-      @api.constrains('butaca','sessio')
+      @api.constrains('seat','session')
       def _check_repeticions(self):
         for r in self:
-          if self.search_count([('butaca.id','=',r.butaca.id),('sessio.id','=',r.sessio.id)]) > 1:
+          if self.search_count([('seat.id','=',r.seat.id),('session.id','=',r.session.id)]) > 1:
             raise ValidationError("Repetida")
-          if r.butaca.sala.id != r.sessio.sala.id:
-            raise ValidationError("La butaca no és de la sala")
+          if r.seat.theater.id != r.session.theater.id:
+            raise ValidationError("La seat no és de la theater")
 
-      @api.onchange('aux_cine')
-      def _filter_cine(self):
-        return { 'domain': {'aux_sala': [('cine','=',self.aux_cine.id)]} }     
-      @api.onchange('aux_sala')
-      def _filter_sala(self):
-        return { 'domain': {'sessio': [('sala','=',self.aux_sala.id)]} }     
-      @api.onchange('sessio')
-      def _filter_sessio(self):
-        butacas=self.env['cine.butaca'].search([('sala','=',self.sessio.sala.id)])
-        print butacas 
+      @api.onchange('aux_cinema')
+      def _filter_cinema(self):
+        return { 'domain': {'aux_theater': [('cinema','=',self.aux_cine.id)]} }     
+      @api.onchange('aux_theater')
+      def _filter_theater(self):
+        return { 'domain': {'session': [('theater','=',self.aux_theater.id)]} }     
+      @api.onchange('session')
+      def _filter_session(self):
+        seats=self.env['cine.seat'].search([('theater','=',self.session.theater.id)])
+        print seats 
         libres=[]
-        for i in butacas:
-         entradas=self.search_count([('butaca','=',i.id)])
-         if entradas == 0:
+        for i in seats:
+         tickets=self.search_count([('seat','=',i.id)])
+         if tickets == 0:
           libres.append(i.id)
         print libres
-        return { 'domain': {'butaca': [('id', 'in' , libres)]} } 
+        return { 'domain': {'seat': [('id', 'in' , libres)]} } 
     
       @api.multi
       def change_state(self):
@@ -232,14 +232,14 @@ class entrada(models.Model):
 
 class wizSessions(models.TransientModel):
       _name = 'cine.wiz_sessions'
-      def _default_cine(self):
-         return self.env['cine.cine'].browse(self._context.get('active_id')) 
-      cine=fields.Many2one('cine.cine',default=_default_cine)
-      pelicules=fields.Many2many('cine.pelicula')
-      dia=fields.Date() 
+      def _default_cinema(self):
+         return self.env['cine.cinema'].browse(self._context.get('active_id')) 
+      cinema=fields.Many2one('cine.cinema',default=_default_cinema)
+      movies=fields.Many2many('cine.movie')
+      day=fields.Date() 
       state = fields.Selection([
         ('pelis', "Movie Selection"),
-        ('dia', "Day Selection"),
+        ('day', "Day Selection"),
       ], default='pelis')
  
       @api.multi
@@ -248,68 +248,68 @@ class wizSessions(models.TransientModel):
         return { "type": "ir.actions.do_nothing", }
 
       @api.multi
-      def action_dia(self):
-        self.state = 'dia'
+      def action_day(self):
+        self.state = 'day'
         return { "type": "ir.actions.do_nothing", }
       
       @api.multi
       def crear(self):
-        sales=self.cine.sales.ids
-        n_sales = len(sales)
-        sala=0
-        for i in self.pelicules:
-         if sala<n_sales:
-          sessio=self.dia+' 18:00:00'
+        theaters=self.cine.theaters.ids
+        n_theaters = len(theaters)
+        theater=0
+        for i in self.movies:
+         if theater<n_theaters:
+          session=self.day+' 18:00:00'
           for j in range(0,3):
-            s=self.env['cine.sessio'].create({'pelicula':i.id,'hora':sessio,'cine':self.cine.id,'sala':sales[sala]})
-            sessio=(datetime.strptime(sessio, '%Y-%m-%d %H:%M:%S')+timedelta(hours=i.duracio)).strftime('%Y-%m-%d %H:%M:%S')
-          sala = sala + 1
+            s=self.env['cine.session'].create({'movie':i.id,'hour':session,'cinema':self.cine.id,'theater':theaters[theater]})
+            session=(datetime.strptime(session, '%Y-%m-%d %H:%M:%S')+timedelta(hours=i.duration)).strftime('%Y-%m-%d %H:%M:%S')
+          theater = theater + 1
         return {}
 
 
 class wizSessions2(models.TransientModel):
       _name = 'cine.wiz_sessions2'
-      def _default_cine(self):
-         return self.env['cine.cine'].browse(self._context.get('active_id')) 
-      def _get_horainici(self):
+      def _default_cinema(self):
+         return self.env['cine.cinema'].browse(self._context.get('active_id')) 
+      def _get_hourinici(self):
         return fields.Date.today()+" 18:00:00"       
-      cine=fields.Many2one('cine.cine',default=_default_cine)
-      sala=fields.Many2one('cine.sala')
-      pelicula=fields.Many2one('cine.pelicula')
-      hora_inici=fields.Datetime(default=_get_horainici) 
-      sessions=fields.Many2many('cine.sessio') # Falta afegir com a referència les sessions d'eixe dia en eixa sala.
+      cinema=fields.Many2one('cine.cinema',default=_default_cinema)
+      theater=fields.Many2one('cine.theater')
+      movie=fields.Many2one('cine.movie')
+      hour_inici=fields.Datetime(default=_get_hourinici) 
+      sessions=fields.Many2many('cine.session') # Falta afegir com a referència les sessions d'eixe day en eixa theater.
       
-      @api.onchange('sala')
+      @api.onchange('theater')
       def lista_sessions(self):
-        s=self.env['cine.sessio'].search([('dia','=',self.hora_inici)]).ids
+        s=self.env['cine.session'].search([('day','=',self.hour_inici)]).ids
         self.sessions = [(6,0,s)] 
 
       @api.multi
       def crear(self):
-        sala=self.sala.id
-        peli=self.pelicula.id
-        s=self.env['cine.sessio'].create({'pelicula':peli,'hora':self.hora_inici,'cine':self.cine.id,'sala':sala})
+        theater=self.theater.id
+        peli=self.movie.id
+        s=self.env['cine.session'].create({'movie':peli,'hour':self.hour_inici,'cinema':self.cine.id,'theater':theater})
         self.sessions = [(4,s.id)]
         fmt = '%Y-%m-%d %H:%M:%S'
-        h = datetime.strptime(self.hora_inici, fmt)+timedelta(hours=+self.pelicula.duracio)
-        self.hora_inici = h.strftime(fmt)
+        h = datetime.strptime(self.hour_inici, fmt)+timedelta(hours=+self.movie.duration)
+        self.hour_inici = h.strftime(fmt)
         return { "type": "ir.actions.do_nothing", }
 
-class wizbutaques(models.TransientModel):
-      _name = 'cine.wiz_butaques'
-      def _default_sala(self):
-         return self.env['cine.sala'].browse(self._context.get('active_id')) 
-      sala=fields.Many2one('cine.sala',default=_default_sala)
+class wizseats(models.TransientModel):
+      _name = 'cine.wiz_seats'
+      def _default_theater(self):
+         return self.env['cine.theater'].browse(self._context.get('active_id')) 
+      theater=fields.Many2one('cine.theater',default=_default_theater)
 
-      files=fields.Integer(default=10)
-      butaques=fields.Integer(default=10)
+      rows=fields.Integer(default=10)
+      seats=fields.Integer(default=10)
 
       @api.multi
       def crear(self):
-        sala=self.sala.id
-        for i in range(0,self.files):
-         for j in range(0,self.butaques):
-            s=self.env['cine.butaca'].create({'sala':sala,'fila':i+1,'butaca':j+1})
+        theater=self.theater.id
+        for i in range(0,self.rows):
+         for j in range(0,self.seats):
+            s=self.env['cine.seat'].create({'theater':theater,'row':i+1,'seat':j+1})
         return {}
 
 #TODO
