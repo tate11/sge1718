@@ -48,7 +48,8 @@ class session(models.Model):
 
      name = fields.Char(compute='_get_day',store=True)
      theater = fields.Many2one('cine.theater',string='Theater',ondelete='set null')
-     cinema = fields.Many2one('cine.cinema',store=False,string='Cinema')
+     cinema = fields.Many2one('cine.cinema',store=False,string='Select a Cinema',help="Select a Cinema to filter the theaters")
+     cinema_aux = fields.Many2one('cine.cinema',related='theater.cinema',string='Cinema',readonly=True,store=True)
      hour = fields.Datetime('Hour')
      day = fields.Date(compute='_get_day',store=True,string='Day')
      duration = fields.Float(related='movie.duration',string='Duration')
@@ -203,7 +204,7 @@ class ticket(models.Model):
 
       @api.onchange('aux_cinema')
       def _filter_cinema(self):
-        return { 'domain': {'aux_theater': [('cinema','=',self.aux_cine.id)]} }     
+        return { 'domain': {'aux_theater': [('cinema','=',self.aux_cinema.id)]} }     
       @api.onchange('aux_theater')
       def _filter_theater(self):
         return { 'domain': {'session': [('theater','=',self.aux_theater.id)]} }     

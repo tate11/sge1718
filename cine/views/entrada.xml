@@ -5,7 +5,7 @@
     <field name="name">Change state</field>
     <field name="model_id" ref="cine.model_cine_ticket"/>
     <field name="state">code</field>
-    <field name="code">self.browse(cr,uid,context.get('active_ids',[])).change_state()</field>
+    <field name="code">env['cine.ticket'].browse(context['active_ids']).change_state()</field>
 </record>
 
 <record model="ir.values" id="ir_cambiar_estado_tickets">
@@ -91,7 +91,7 @@
                         <field name="movie"/>
                         <field name="seat"/>
                         <field name="price"/>
-                        <filter name="group_by_sessio" string="Group by session" context="{'group_by': 'sessio'}"/>
+                        <filter name="group_by_sessio" string="Group by session" context="{'group_by': 'session'}"/>
                         <filter name="group_by_day" string="Group by Day" context="{'group_by': 'day'}"/>
                         <filter name="group_by_theater" string="Group by theater" context="{'group_by': 'theater'}"/>
                         <filter name="group_by_cinema" string="Group by cinema" context="{'group_by': 'cinema'}"/>

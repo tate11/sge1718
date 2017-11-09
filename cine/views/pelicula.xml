@@ -50,18 +50,23 @@
             <field name="name">movie.kanban</field>
             <field name="model">cine.movie</field>
             <field name="arch" type="xml">
-              <kanban>
+              <kanban> 
+		<field name="enbillb"/> 
  		<templates>
                   <t t-name="kanban-box">
-                    <div  t-attf-class="">
+			<div t-att-class="record.enbillb.value == 1 ?
+                		  'oe_kanban_color_2' :
+                  		  'oe_kanban_color_0' "
+				style="flex: 1 1 100px;"
+				>
                                 <a type="open">
-                                    <img class="oe_kanban_image" t-att-src="kanban_image('cine.movie', 'poster', record.id.value)" style="width:200px;"/>
+                                    <img class="oe_kanban_image" t-att-src="kanban_image('cine.movie', 'poster', record.id.value)" style="width:100px;"/>
                                 </a>
                                 <div t-attf-class="oe_kanban_content">
                                     <h4>
                                         <a type="edit">
-                                            <field name="name"></field>
-                        <field name="enbillb"/>
+                                            <field name="name"/>
+                        		     <field name="enbillb"/> 
                                         </a>
                                     </h4>
                                     <ul>
