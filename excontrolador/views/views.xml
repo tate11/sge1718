@@ -1,0 +1,41 @@
+<odoo>
+  <data>
+
+    <record model="ir.actions.act_window" id="excontrolador.province_action_window">
+      <field name="name">excontrolador window</field>
+      <field name="res_model">excontrolador.province</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    <record model="ir.actions.act_window" id="excontrolador.comunity_action_window">
+      <field name="name">excontrolador window</field>
+      <field name="res_model">excontrolador.comunity</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    <record model="ir.actions.act_window" id="excontrolador.town_action_window">
+      <field name="name">excontrolador window</field>
+      <field name="res_model">excontrolador.town</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    <record model="ir.actions.act_window" id="excontrolador.street_action_window">
+      <field name="name">excontrolador window</field>
+      <field name="res_model">excontrolador.street</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    <record model="ir.actions.act_window" id="excontrolador.shipping_action_window">
+      <field name="name">excontrolador window</field>
+      <field name="res_model">excontrolador.shipping</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Top menu item -->
+    <menuitem name="excontrolador" id="excontrolador.menu_root"/>
+    <!-- menu categories -->
+    <menuitem name="shippings" id="excontrolador.menu_1" parent="excontrolador.menu_root"/>
+    <!-- actions -->
+    <menuitem name="Provinces" id="excontrolador.menu_1_list" parent="excontrolador.menu_1"  action="excontrolador.province_action_window"/>
+    <menuitem name="Comunity" id="excontrolador.menu_2_list" parent="excontrolador.menu_1"  action="excontrolador.comunity_action_window"/>
+    <menuitem name="Towns" id="excontrolador.menu_3_list" parent="excontrolador.menu_1"  action="excontrolador.town_action_window"/>
+    <menuitem name="Strets" id="excontrolador.menu_4_list" parent="excontrolador.menu_1"  action="excontrolador.street_action_window"/>
+    <menuitem name="Shippings" id="excontrolador.menu_5_list" parent="excontrolador.menu_1"  action="excontrolador.shipping_action_window"/>
+  </data>
+</odoo>
