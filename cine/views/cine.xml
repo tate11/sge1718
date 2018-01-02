@@ -18,6 +18,7 @@
 
                     <group states="pelis">
                         <field name="cinema"/>
+                        <field name="pos_session_id"/>
                         <field name="movies"/>
                     </group>
                     <group states="day">
@@ -139,7 +140,7 @@
                                         <a type="open">
                                             <field name="name"></field>
                                         </a>
-                                            <field name="tickets" widget="x2many_counter"></field>
+                                          <!--  <field name="tickets" widget="x2many_counter"></field> -->
 
  <field name="percent_current_projections" widget="gauge" style="width:150px; height: 110px;" options="{'levelcolors': ['#a9d70b', '#f9c802', '#ff0000'], 'action_jump': '357'}"/>
                                             

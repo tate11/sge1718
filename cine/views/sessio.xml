@@ -22,8 +22,11 @@
                      </page>
                     <page string="Tickets">
                       <group string="Ticket List">
-                        <field name="tickets" context="{'default_session':active_id}"/>
-
+                         <field name="pos_session_id"/>
+                         <field name="tpv"/>
+			 <field name="orders"/>
+			 <field name="tickets"><tree><field name="name"/><field name="seat"/><field name="movie"/></tree>
+			</field>
                         <field name="current_projections"/>
                         <field name="percent_current_projections"/>
                       </group>

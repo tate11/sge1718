@@ -45,7 +45,9 @@ class theater(models.Model):
 
 class session(models.Model):
      _name = 'cine.session'
-
+     _inherits = {'pos.session' : 'pos_session_id'}
+     pos_session_id = fields.Many2one('pos.session')
+     tpv = fields.Many2one(related="pos_session_id.config_id", readonly=True)
      name = fields.Char(compute='_get_day',store=True)
      theater = fields.Many2one('cine.theater',string='Theater',ondelete='set null')
      cinema = fields.Many2one('cine.cinema',store=False,string='Select a Cinema',help="Select a Cinema to filter the theaters")
@@ -55,14 +57,15 @@ class session(models.Model):
      duration = fields.Float(related='movie.duration',string='Duration')
      movie = fields.Many2one('cine.movie',string='Movie',ondelete='restrict')
      movie_poster = fields.Binary(related='movie.poster',string='Movie poster')
-     tickets = fields.One2many('cine.ticket','session', string='Tickets')
+     tickets = fields.One2many('pos.order.line','session', string='Tickets')
+     orders = fields.One2many('pos.order',related='pos_session_id.order_ids', string='Orders')
      current_projections = fields.Boolean(compute='_get_current_projections',store=False, string='Projection')
      percent_current_projections = fields.Float(compute='_get_current_projections',store=False, string='% Projection')
 
      @api.onchange('cinema')
      def _filter_theater(self):
       #print self.cinema
-      return { 'domain': {'theater': [('cinema','=',self.cine.id)]} }     
+      return { 'domain': {'theater': [('cinema','=',self.cinema.id)]} }     
 
 
      @api.depends('theater','hour','movie')
@@ -143,8 +146,8 @@ class seat(models.Model):
            r.name="Fila: "+str(r.row)+", Butaca: "+str(r.seat)
 
 class ticket(models.Model):
-      _name = 'cine.ticket'
-     
+      #_name = 'pos.order.line'
+      _inherit = 'pos.order.line'
       name = fields.Char(string="Identification", compute='_get_id')
       seat = fields.Many2one('cine.seat',string='Seat', ondelete='set null')
       session = fields.Many2one('cine.session',string='Session')
@@ -155,7 +158,7 @@ class ticket(models.Model):
       cinema = fields.Many2one('cine.cinema',related='session.theater.cinema',store=True,readonly=True,string='Cinema')
       movie = fields.Many2one('cine.movie',related='session.movie',store=True,readonly=True,string='Movie')
       price_graph = fields.Float(related='movie.price', string='recaptacio' ,store=True) # per al graph
-      price = fields.Float('Price',compute="_get_price",search='_search_price',inverse='_set_price') 
+      price_unit = fields.Float('Price',compute="_get_price",search='_search_price',inverse='_set_price') 
       state = fields.Selection([
         ('creada', "Created"),
         ('reservada', "Reserved"),
@@ -179,7 +182,7 @@ class ticket(models.Model):
         for r in self:
           price = r.movie.price
           price = price - (price*r.discount/100)
-          r.price = price
+          r.price_unit = price
 
       def _search_price(self,operator,value): # De moment aquest search sols és per a ==
        prices = self.search([]).mapped(lambda e: [e.id , e.movie.price - (e.movie.price*e.discount/100)]) # Un bon exemple de mapped en lambda
@@ -210,14 +213,16 @@ class ticket(models.Model):
         return { 'domain': {'session': [('theater','=',self.aux_theater.id)]} }     
       @api.onchange('session')
       def _filter_session(self):
-        seats=self.env['cine.seat'].search([('theater','=',self.session.theater.id)])
-        print seats 
-        libres=[]
-        for i in seats:
-         tickets=self.search_count([('seat','=',i.id)])
-         if tickets == 0:
-          libres.append(i.id)
-        print libres
+       # seats=self.env['cine.seat'].search([('theater','=',self.session.theater.id)])
+       # print seats 
+       # libres=[]
+      #   for i in seats:
+      #   tickets=self.search_count([('seat','=',i.id),('session','=',self.session.id)])
+      #   if tickets == 0:
+      #    libres.append(i.id)
+      #  print libres
+        libres = (self.session.theater.seats - self.search([('session','=',self.session.id)]).mapped('seat')).ids
+        print libres   
         return { 'domain': {'seat': [('id', 'in' , libres)]} } 
     
       @api.multi
@@ -236,6 +241,8 @@ class wizSessions(models.TransientModel):
       def _default_cinema(self):
          return self.env['cine.cinema'].browse(self._context.get('active_id')) 
       cinema=fields.Many2one('cine.cinema',default=_default_cinema)
+      pos_session_id = fields.Many2one('pos.session')
+      tpv=fields.Many2one('pos.config')
       movies=fields.Many2many('cine.movie')
       day=fields.Date() 
       state = fields.Selection([
@@ -255,14 +262,14 @@ class wizSessions(models.TransientModel):
       
       @api.multi
       def crear(self):
-        theaters=self.cine.theaters.ids
+        theaters=self.cinema.theaters.ids
         n_theaters = len(theaters)
         theater=0
         for i in self.movies:
          if theater<n_theaters:
           session=self.day+' 18:00:00'
           for j in range(0,3):
-            s=self.env['cine.session'].create({'movie':i.id,'hour':session,'cinema':self.cine.id,'theater':theaters[theater]})
+            s=self.env['cine.session'].create({'movie':i.id,'hour':session,'cinema':self.cinema.id,'theater':theaters[theater],'pos_session_id':self.pos_session_id.id})
             session=(datetime.strptime(session, '%Y-%m-%d %H:%M:%S')+timedelta(hours=i.duration)).strftime('%Y-%m-%d %H:%M:%S')
           theater = theater + 1
         return {}
@@ -276,6 +283,7 @@ class wizSessions2(models.TransientModel):
         return fields.Date.today()+" 18:00:00"       
       cinema=fields.Many2one('cine.cinema',default=_default_cinema)
       theater=fields.Many2one('cine.theater')
+      tpv=fields.Many2one('pos.config')
       movie=fields.Many2one('cine.movie')
       hour_inici=fields.Datetime(default=_get_hourinici) 
       sessions=fields.Many2many('cine.session') # Falta afegir com a referència les sessions d'eixe day en eixa theater.
