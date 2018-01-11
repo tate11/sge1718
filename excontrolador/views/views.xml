@@ -13,6 +13,7 @@
                              <field name="province"/>
                              <field name="town"/>
                              <field name="street"/>
+                             <field name="client"/>
                              <field name="comunityaux"/>
                              <field name="provinceaux"/>
                             <field name="townaux"/>
@@ -28,8 +29,68 @@
             </field>
         </record>
 
+<!-- Herència en la vista 
+-->
+
+ <record model="ir.ui.view" id="excontrolador.clients_form">
+            <field name="name">excontrolador.clients Form</field>
+            <field name="model">res.partner</field>
+	    <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Shippings">
+                        <group>
+                            <field name="shippings"/>
+                        </group>
+                    </page>
+                </notebook>
+		<xpath expr="//field[@name='child_ids']" position="after" >
+		<group><field name="alternative_address"/> </group>
+		</xpath>
+            </field>
+        </record>
+
+<!-- Vista específica -->
 
 
+ <record model="ir.ui.view" id="excontrolador.client_specific_form">
+            <field name="name">excontrolador.client form</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <form string="Shipping Form">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="alternative_address"/>
+                            <field name="shippings"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+<!-- Vista per l'herència per prototip -->
+
+
+ <record model="ir.ui.view" id="excontrolador.driver_form">
+            <field name="name">excontrolador.driver Form</field>
+            <field name="model">excontrolador.driver</field>
+	    <field name="inherit_id" ref=""/>
+            <field name="arch" type="xml">
+		<form string="Driver form">
+		<sheet>
+                <notebook>
+                    <page string="Driver">
+                        <group>
+                            <field name="name"/>
+                            <field name="repartos"/>
+                        </group>
+                    </page>
+                </notebook>
+		</sheet>
+		</form>
+            </field>
+        </record>
 
 
     <record model="ir.actions.act_window" id="excontrolador.province_action_window">
@@ -57,6 +118,46 @@
       <field name="res_model">excontrolador.shipping</field>
       <field name="view_mode">tree,form</field>
     </record>
+<!-- Vista específica -->
+    <record model="ir.actions.act_window" id="excontrolador.clients_action_window">
+      <field name="name">excontrolador window</field>
+      <field name="res_model">res.partner</field>
+      <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+
+<record model="ir.actions.act_window.view" id="excontrolador.act_hr_client_tree_view">
+    <field eval="1" name="sequence"/>
+    <field name="view_mode">tree</field>
+    <field name="view_id" ref="base.view_partner_tree"/>
+    <field name="act_window_id" ref="excontrolador.clients_action_window"/>
+</record>
+<record model="ir.actions.act_window.view" id="excontrolador.act_hr_client_form_view">
+    <field eval="2" name="sequence"/>
+    <field name="view_mode">form</field>
+    <field name="view_id" ref="excontrolador.client_specific_form"/>
+    <field name="act_window_id" ref="excontrolador.clients_action_window"/>
+</record>
+<record model="ir.actions.act_window.view" id="excontrolador.act_hr_client_kanban_view">
+    <field eval="3" name="sequence"/>
+    <field name="view_mode">kanban</field>
+    <field name="view_id" ref="base.res_partner_kanban_view"/>
+    <field name="act_window_id" ref="excontrolador.clients_action_window"/>
+</record>
+
+<!-- Vista per a l'herencia per prototip -->
+
+    <record model="ir.actions.act_window" id="excontrolador.drivers_action_window">
+      <field name="name">excontrolador window</field>
+      <field name="res_model">excontrolador.driver</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="excontrolador.socis_action_window">
+      <field name="name">excontrolador window</field>
+      <field name="res_model">excontrolador.soci</field>
+      <field name="view_mode">tree,form</field>
+    </record>
 
     <!-- Top menu item -->
     <menuitem name="excontrolador" id="excontrolador.menu_root"/>
@@ -68,5 +169,8 @@
     <menuitem name="Towns" id="excontrolador.menu_3_list" parent="excontrolador.menu_1"  action="excontrolador.town_action_window"/>
     <menuitem name="Streets" id="excontrolador.menu_4_list" parent="excontrolador.menu_1"  action="excontrolador.street_action_window"/>
     <menuitem name="Shippings" id="excontrolador.menu_5_list" parent="excontrolador.menu_1"  action="excontrolador.shipping_action_window"/>
+    <menuitem name="Clients" id="excontrolador.menu_6_list" parent="excontrolador.menu_1"  action="excontrolador.clients_action_window"/>
+    <menuitem name="Drivers" id="excontrolador.menu_7_list" parent="excontrolador.menu_1"  action="excontrolador.drivers_action_window"/>
+    <menuitem name="Socis" id="excontrolador.menu_8_list" parent="excontrolador.menu_1"  action="excontrolador.socis_action_window"/>
   </data>
 </odoo>
