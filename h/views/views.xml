@@ -1,0 +1,100 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="h.socis_form">
+      <field name="name">soci form</field>
+      <field name="model">h.socis</field>
+      <field name="arch" type="xml">
+        <form><sheet><group>
+          <field name="name"/>
+          <field name="altura"/>
+          <field name="client"/>
+        </group></sheet></form>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="h.multiple_form">
+      <field name="name">soci form</field>
+      <field name="model">h.multiple</field>
+      <field name="arch" type="xml">
+        <form><sheet><group>
+          <field name="name"/>
+          <field name="partner_id"/>
+          <field name="altura"/>
+          <field name="socis"/>
+        </group></sheet></form>
+      </field>
+    </record>
+<!-- Herència en la vista-->
+    <record model="ir.ui.view" id="h.res_partner_form">
+      <field name="name">client form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="arch" type="xml">
+	 <field name="lang" position="after">
+          <field name="altura"/>
+         </field>
+	 <notebook position="inside">
+		<page string="Peso">
+		<group> <field name="peso"/></group>
+		</page>
+	</notebook>
+        <xpath expr="//notebook/page/field[@name='child_ids']" position="before">
+		
+		<group> <field name="imc"/></group>
+
+        </xpath>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="h.client_form">
+      <field name="name">client form</field>
+      <field name="model">res.partner</field>
+      <field name="arch" type="xml">
+          <form><sheet><group>
+          <field name="name"/>
+          <field name="altura"/>
+          <field name="peso"/>	
+          <field name="imc"/></group>
+          </sheet></form>
+      </field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="h.client_action_window">
+      <field name="name">client window</field>
+      <field name="res_model">res.partner</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+<record model="ir.actions.act_window.view" id="h.client_action_view_tree">
+    <field eval="1" name="sequence"/>
+    <field name="view_mode">tree</field>
+    <field name="view_id" ref="base.view_partner_tree"/>
+    <field name="act_window_id" ref="h.client_action_window"/>
+</record>
+<record model="ir.actions.act_window.view" id="h.client_action_view">
+    <field eval="2" name="sequence"/>
+    <field name="view_mode">form</field>
+    <field name="view_id" ref="h.client_form"/>
+    <field name="act_window_id" ref="h.client_action_window"/>
+</record>
+
+
+    <record model="ir.actions.act_window" id="h.soci_action_window">
+      <field name="name">socis window</field>
+      <field name="res_model">h.socis</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    <record model="ir.actions.act_window" id="h.multiple_action_window">
+      <field name="name">socis window</field>
+      <field name="res_model">h.multiple</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem name="h" id="h.menu_root"/>
+    <!-- menu categories -->
+    <menuitem name="Menu 1" id="h.menu_1" parent="h.menu_root"/>
+    <menuitem name="Clients" id="h.menu_1_list" parent="h.menu_1"
+              action="h.client_action_window"/>
+    <menuitem name="Socis" id="h.menu_2_list" parent="h.menu_1"
+              action="h.soci_action_window"/>
+    <menuitem name="Multiple" id="h.menu_3_list" parent="h.menu_1"
+              action="h.multiple_action_window"/>
+  </data>
+</odoo>

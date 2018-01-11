@@ -26,7 +26,10 @@ class street(models.Model):
 
      name = fields.Char()
      town = fields.Many2one('excontrolador.town')
-
+     a = fields.Integer(compute='_a')
+     def _a(self):
+       for i in sefl:
+         i.a=33
 
 class shipping(models.Model):
      _name = 'excontrolador.shipping'
@@ -86,4 +89,13 @@ class shipping(models.Model):
          diff=return_date-delivery_date
          i.days_before_return = diff.total_seconds()/60/60/24
 
-
+class prod(models.Model):
+     _name = 'excontrolador.prod'
+     product_id = fields.Many2one('product.template','Select a product')
+     name = fields.Char(related='product_id.name',required="true",readonly="true")
+#     list_price = fields.Float(related='product_id.list_price',readonly="true")
+#     standard_price = fields.Float(related='product_id.standard_price',readonly="true")
+#     type = fields.Selection(related='product_id.type')
+     categ_id = fields.Many2one('product.category','Category')
+     image_medium = fields.Binary(related='product_id.image_medium',String="Image")
+     #qty_available = fields.Float(related='product_id.qty_available')
