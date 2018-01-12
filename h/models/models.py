@@ -10,6 +10,7 @@ class clients(models.Model):
      altura = fields.Float()
      peso = fields.Float()
      imc = fields.Float()
+     is_cliente = fields.Boolean()
 
 # Herència per prototip
 class socis(models.Model):

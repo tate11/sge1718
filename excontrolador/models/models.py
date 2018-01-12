@@ -45,7 +45,8 @@ class shipping(models.Model):
      comunityaux = fields.Many2one('excontrolador.comunity', store=False)
 
      address = fields.Char()
-
+     client = fields.Many2one('res.partner')
+     driver = fields.Many2one('excontrolador.driver')
      @api.onchange('comunityaux')
      def _filter_province(self):
         print "comunity"
@@ -89,6 +90,7 @@ class shipping(models.Model):
          diff=return_date-delivery_date
          i.days_before_return = diff.total_seconds()/60/60/24
 
+<<<<<<< HEAD
 class prod(models.Model):
      _name = 'excontrolador.prod'
      product_id = fields.Many2one('product.template','Select a product')
@@ -99,3 +101,35 @@ class prod(models.Model):
      categ_id = fields.Many2one('product.category','Category')
      image_medium = fields.Binary(related='product_id.image_medium',String="Image")
      #qty_available = fields.Float(related='product_id.qty_available')
+=======
+    #############################################################################
+    ################# Coses de herència #######################################
+
+    ###### Herència de classe #############
+
+class client(models.Model):
+    _name = 'res.partner'
+    _inherit = 'res.partner'
+
+    shippings = fields.One2many('excontrolador.shipping','client')
+    alternative_address = fields.Char()
+
+
+    ########## Herència per prototip #############
+
+class driver(models.Model):
+   _name = 'excontrolador.driver'
+   _inherit = 'res.partner'
+
+   repartos = fields.One2many('excontrolador.shipping','driver')  
+   
+    ############ Herència múltiple ###############
+
+class soci(models.Model):
+   _name = 'excontrolador.soci'
+   _inherits = {'res.partner': 'partner_id'} 
+
+   #partner_id = fields.Many2one('res.partner')
+   n_soci = fields.Char()
+   descompte = fields.Float()   
+>>>>>>> 72979c26d9df0f4058db143876dc41f7a086e648
