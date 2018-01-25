@@ -31,6 +31,10 @@ class street(models.Model):
        for i in sefl:
          i.a=33
 
+class pedidoaux(models.Model):
+     _inherit = 'purchase.order'
+     ship = fields.Many2one('excontrolador.shipping')
+
 class shipping(models.Model):
      _name = 'excontrolador.shipping'
 
@@ -47,6 +51,7 @@ class shipping(models.Model):
      address = fields.Char()
      client = fields.Many2one('res.partner')
      driver = fields.Many2one('excontrolador.driver')
+     pedido = fields.One2many('purchase.order','ship')
      @api.onchange('comunityaux')
      def _filter_province(self):
         print "comunity"
@@ -90,7 +95,6 @@ class shipping(models.Model):
          diff=return_date-delivery_date
          i.days_before_return = diff.total_seconds()/60/60/24
 
-<<<<<<< HEAD
 class prod(models.Model):
      _name = 'excontrolador.prod'
      product_id = fields.Many2one('product.template','Select a product')
@@ -101,7 +105,6 @@ class prod(models.Model):
      categ_id = fields.Many2one('product.category','Category')
      image_medium = fields.Binary(related='product_id.image_medium',String="Image")
      #qty_available = fields.Float(related='product_id.qty_available')
-=======
     #############################################################################
     ################# Coses de herència #######################################
 
@@ -132,4 +135,3 @@ class soci(models.Model):
    #partner_id = fields.Many2one('res.partner')
    n_soci = fields.Char()
    descompte = fields.Float()   
->>>>>>> 72979c26d9df0f4058db143876dc41f7a086e648

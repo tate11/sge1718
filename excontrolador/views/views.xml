@@ -23,6 +23,8 @@
                             <field name="delivery_date"/>
                             <field name="return_date"/>
                             <field name="days_before_return"/>
+                            <field name="pedido"
+				/>
                         </group>
                     </sheet>
                 </form>
@@ -92,6 +94,19 @@
             </field>
         </record>
 
+ <record model="ir.ui.view" id="excontrolador.pedido_form">
+            <field name="name">excontrolador.pedido Form</field>
+            <field name="model">purchase.order</field>
+	    <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+<field name="is_shipped" position="after"><field name="ship"/>
+       <!--    <xpath expr="//field[@name='order_line']" position="before">
+                <field name="state"/>
+            </xpath>
+-->
+</field>
+            </field>
+        </record>
 
     <record model="ir.actions.act_window" id="excontrolador.province_action_window">
       <field name="name">excontrolador window</field>

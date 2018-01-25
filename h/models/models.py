@@ -12,6 +12,13 @@ class clients(models.Model):
      imc = fields.Float()
      is_cliente = fields.Boolean()
 
+"""     @api.model
+     def create(self,values):
+        new = super(clients,self).create(values)
+        print new
+        print new.name
+        self.env['h.socis'].create({'name':new.name,'client':new.id})
+"""
 # Herència per prototip
 class socis(models.Model):
      _inherit = 'res.partner'

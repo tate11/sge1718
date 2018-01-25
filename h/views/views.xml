@@ -50,6 +50,7 @@
       <field name="arch" type="xml">
           <form><sheet><group>
           <field name="name"/>
+          <field name="is_cliente"/>
           <field name="altura"/>
           <field name="peso"/>	
           <field name="imc"/></group>
@@ -62,6 +63,8 @@
       <field name="name">client window</field>
       <field name="res_model">res.partner</field>
       <field name="view_mode">tree,form</field>
+      <field name="domain">[('is_cliente','=',True)]</field>
+      <field name="context">{"default_is_cliente": True}</field>
     </record>
 <record model="ir.actions.act_window.view" id="h.client_action_view_tree">
     <field eval="1" name="sequence"/>
