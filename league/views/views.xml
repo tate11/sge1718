@@ -1,0 +1,56 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="league.list">
+      <field name="name">league list</field>
+      <field name="model">league.league</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+
+    <record model="ir.actions.act_window" id="league.leagues_action_window">
+      <field name="name">league window</field>
+      <field name="res_model">league.league</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    <record model="ir.actions.act_window" id="league.teams_action_window">
+      <field name="name">team window</field>
+      <field name="res_model">league.team</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    <record model="ir.actions.act_window" id="league.players_action_window">
+      <field name="name">player window</field>
+      <field name="res_model">league.player</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    <record model="ir.actions.act_window" id="league.matches_action_window">
+      <field name="name">match window</field>
+      <field name="res_model">league.match</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    
+    <menuitem name="League" id="league.menu_root"/>
+
+    
+    <menuitem name="Data" id="league.menu_data" parent="league.menu_root"/>
+
+    
+    <menuitem name="Leagues" id="league.menu_leagues" parent="league.menu_data"
+              action="league.leagues_action_window"/>
+    <menuitem name="Teams" id="league.menu_teams" parent="league.menu_data"
+              action="league.teams_action_window"/>
+    <menuitem name="Players" id="league.menu_players" parent="league.menu_data"
+              action="league.players_action_window"/>
+    <menuitem name="Matchs" id="league.menu_matches" parent="league.menu_data"
+              action="league.matches_action_window"/>
+    
+  </data>
+</odoo>
