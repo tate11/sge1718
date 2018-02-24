@@ -1,0 +1,76 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <record model="ir.ui.view" id="exone.llista_tree">
+      <field name="name">exone list</field>
+      <field name="model">exone.llista</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="llista"/>
+        </tree>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="exone.llista_form">
+      <field name="name">exone form</field>
+      <field name="model">exone.llista</field>
+      <field name="arch" type="xml">
+        <form><sheet>
+	
+	  <button name="duplicar" type="object" string="Duplicar"/>
+        <group>
+	  <field name="name"/>
+          <field name="llista" context="{'default_llista':active_id}">
+        <tree>
+          <field name="name"/>
+          <field name="llista"/>
+        </tree>
+		</field>
+        </group></sheet></form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="exone.elements_tree">
+      <field name="name">exone list</field>
+      <field name="model">exone.elements</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="llista"/>
+        </tree>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="exone.elements_form">
+      <field name="name">exone form</field>
+      <field name="model">exone.elements</field>
+      <field name="arch" type="xml">
+        <form><sheet><group>
+          <field name="name"/>
+          <field name="llista"/>
+        </group></sheet></form>
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+    <record model="ir.actions.act_window" id="exone.llista_action_window">
+      <field name="name">exone window</field>
+      <field name="res_model">exone.llista</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    <record model="ir.actions.act_window" id="exone.elements_action_window">
+      <field name="name">exone window</field>
+      <field name="res_model">exone.elements</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Top menu item -->
+    <menuitem name="exone" id="exone.menu_root"/>
+    <!-- menu categories -->
+    <menuitem name="Menu 1" id="exone.menu_1" parent="exone.menu_root"/>
+    <!-- actions -->
+    <menuitem name="Llista" id="exone.menu_1_list" parent="exone.menu_1"
+              action="exone.llista_action_window"/>
+    <menuitem name="Elements" id="exone.menu_2_list" parent="exone.menu_1"
+              action="exone.elements_action_window"/>
+  </data>
+</odoo>
