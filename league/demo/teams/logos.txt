@@ -1,0 +1,20 @@
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/4.png Alavés
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/5.png Athletic
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/42.png Atlético
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/3.png Barcelona
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/171.png Betis
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/6.png Celta
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/7.png Deportivo
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/108.png Eibar
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/8.png Espanyol
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/172.png Getafe
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/648.png Girona
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/9.png Las Palmas
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/132.png Leganés
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/136.png Levante
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/10.png Málaga
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/16.png R. Sociedad
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/1.png Real Madrid
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/53.png Sevilla
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/17.png Valencia
+http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/19.png Villarreal

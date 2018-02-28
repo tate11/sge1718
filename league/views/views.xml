@@ -1,19 +1,148 @@
 <odoo>
   <data>
-    <!-- explicit list view definition -->
-    <!--
-    <record model="ir.ui.view" id="league.list">
-      <field name="name">league list</field>
+
+  <!-- ################ VISTES DE LA LLIGA ################  -->
+
+    <record model="ir.ui.view" id="league.league_tree">
+      <field name="name">Leagues</field>
       <field name="model">league.league</field>
       <field name="arch" type="xml">
         <tree>
           <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
+          <field name="start_date"/>
+          <field name="end_date"/>
         </tree>
       </field>
     </record>
-    -->
+    <record model="ir.ui.view" id="league.league_form">
+      <field name="name">Leagues</field>
+      <field name="model">league.league</field>
+      <field name="arch" type="xml">
+        <form><sheet>
+          <group>
+          <field name="name"/>
+          <field name="start_date"/>
+          <field name="end_date"/>
+          </group>
+          <notebook>
+        	  <page string="Data">
+			<group>
+			<field name="teams" mode="kanban,tree">
+			<tree><field name="name"/><field name="points"/></tree>
+                <kanban>
+                    <!--list of field to be loaded -->
+                    <field name="name" />
+                    <field name="logo" />
+ 
+                    <templates>
+                    <t t-name="kanban-box">
+                            <div class="oe_product_vignette">
+                                <a type="open">
+                                    <img class="oe_kanban_image"
+                                        t-att-src="kanban_image('league.team', 'logo', record.id.value)" style="width:100px;"/>
+                                </a>
+                                <div class="oe_product_desc">
+                                    <h4>
+                                        <a type="edit">
+                                            <field name="name"></field>
+                                        </a>
+                                    </h4>
+                                            <field name="points"></field>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+			</field>
+			<field name="days">
+			<tree><field name="name"/><field name="sequence"/></tree>
+			</field>
+			</group>
+		  </page>
+        	  <page string="Information">
+			<group>
+				<field name="classification">
+				<tree><field name="name"/><field name="points"/></tree>
+				</field>
+				<field name="matches">
+				<tree>
+				<field name="name"/>
+				<field name="day"/>
+				<field name="local"/>
+				<field name="visitor"/>
+				<field name="local_points"/>
+				<field name="visitor_points"/>
+				</tree>
+				</field>
+			</group>
+		  </page>
+          </notebook>
+        </sheet></form>
+      </field>
+    </record>
+<!-- ######################VISTES DE TEAM #################### -->
+
+    <record model="ir.ui.view" id="league.team_tree">
+      <field name="name">Teams</field>
+      <field name="model">league.team</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="players"/>
+        </tree>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="league.team_form">
+      <field name="name">Teams</field>
+      <field name="model">league.team</field>
+      <field name="arch" type="xml">
+        <form><sheet>
+          <group>
+          <field name="logo" widget="image"/>
+          <field name="name"/>
+          </group>
+          <notebook>
+        	  <page string="Data">
+			<group>
+			<field name="players" mode="kanban,tree">
+			<tree><field name="name"/></tree>
+                <kanban>
+                    <!--list of field to be loaded -->
+                    <field name="name" />
+                    <field name="photo" />
+ 
+                    <templates>
+                    <t t-name="kanban-box">
+                            <div class="oe_product_vignette">
+                                <a type="open">
+                                    <img class="oe_kanban_image"
+                                        t-att-src="kanban_image('league.player', 'photo', record.id.value)" style="width:100px;"/>
+                                </a>
+                                <div class="oe_product_desc">
+                                    <h4>
+                                        <a type="edit">
+                                            <field name="name"></field>
+                                        </a>
+                                    </h4>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+			</field>
+			</group>
+		  </page>
+        	  <page string="Information">
+			<group>
+				<field name="points">
+				<tree><field name="league"/><field name="points"/></tree>
+				</field>
+			</group>
+		  </page>
+          </notebook>
+        </sheet></form>
+      </field>
+    </record>
 
 
     <record model="ir.actions.act_window" id="league.leagues_action_window">

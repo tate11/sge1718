@@ -1,0 +1,20 @@
+https://resultados.as.com/resultados/ficha/equipo/alaves/4/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/4.png Alavés
+https://resultados.as.com/resultados/ficha/equipo/athletic/5/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/5.png Athletic
+https://resultados.as.com/resultados/ficha/equipo/atletico/42/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/42.png Atlético
+https://resultados.as.com/resultados/ficha/equipo/barcelona/3/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/3.png Barcelona
+https://resultados.as.com/resultados/ficha/equipo/betis/171/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/171.png Betis
+https://resultados.as.com/resultados/ficha/equipo/celta/6/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/6.png Celta
+https://resultados.as.com/resultados/ficha/equipo/deportivo/7/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/7.png Deportivo
+https://resultados.as.com/resultados/ficha/equipo/eibar/108/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/108.png Eibar
+https://resultados.as.com/resultados/ficha/equipo/espanyol/8/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/8.png Espanyol
+https://resultados.as.com/resultados/ficha/equipo/getafe/172/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/172.png Getafe
+https://resultados.as.com/resultados/ficha/equipo/girona/648/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/648.png Girona
+https://resultados.as.com/resultados/ficha/equipo/las_palmas/9/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/9.png Las Palmas
+https://resultados.as.com/resultados/ficha/equipo/leganes/132/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/132.png Leganés
+https://resultados.as.com/resultados/ficha/equipo/levante/136/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/136.png Levante
+https://resultados.as.com/resultados/ficha/equipo/malaga/10/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/10.png Málaga
+https://resultados.as.com/resultados/ficha/equipo/r_sociedad/16/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/16.png R. Sociedad
+https://resultados.as.com/resultados/ficha/equipo/real_madrid/1/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/1.png Real Madrid
+https://resultados.as.com/resultados/ficha/equipo/sevilla/53/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/53.png Sevilla
+https://resultados.as.com/resultados/ficha/equipo/valencia/17/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/17.png Valencia
+https://resultados.as.com/resultados/ficha/equipo/villarreal/19/plantilla/	http://as01.epimg.net/img/comunes/fotos/fichas/equipos/large/19.png Villarreal
