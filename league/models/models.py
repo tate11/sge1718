@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+import random
+from datetime import datetime
+from datetime import timedelta
 
 class league(models.Model):
      _name = 'league.league'
@@ -23,13 +26,80 @@ class league(models.Model):
      def _get_matches(self):
        for league in self:
          league.matches = league.days.mapped('matches').ids
+
+     @api.one
+     def create_calendar(self):
+       self.days.unlink() # Esborra totes les jornades i partits (ondelete="cascade")     
+
+       data = fields.Datetime.from_string(self.start_date)
+       teams = self.teams.mapped('team').ids
+       print teams
+       random.shuffle(teams)
+       print teams
+       for i in range(1,len(teams)):
+        day = self.env['league.day'].create({'sequence':i,'league':self.id})
+        day2 = self.env['league.day'].create({'sequence':i+len(teams)-1,'league':self.id})
+          
+        for j in range(0,len(teams)/2): # Primera volta
+           if i%2 == 0:     # alternar en casa o visitant
+            team_a = teams[j]
+            team_b = teams[len(teams)-1-j]
+           else:
+            team_b = teams[j]
+            team_a = teams[len(teams)-1-j]
+           self.env['league.match'].create({
+					'day':day.id,
+					'local':team_a,
+					'visitor':team_b,
+					'date':fields.Datetime.to_string(data)
+					})
+           data = data + timedelta(days=7)
+        for j in range(0,len(teams)/2): # Segona volta
+           if i%2 == 0:     # alternar en casa o visitant
+            team_a = teams[j]
+            team_b = teams[len(teams)-1-j]
+           else:
+            team_b = teams[j]
+            team_a = teams[len(teams)-1-j]
+           self.env['league.match'].create({
+					'day':day2.id,
+					'visitor':team_a,
+					'local':team_b,
+					'date':fields.Datetime.to_string(data)
+					})
+           data = data + timedelta(days=7)
+        aux=[]
+        aux.append(teams[0])
+        aux.append(teams[len(teams)-1])
+        aux.extend(teams[1:len(teams)-1])
+        print aux
+        teams = aux
+
+class wizPoints(models.TransientModel):
+    _name='league.wiz_points'
+    def _default_league(self):
+      return self.env['league.league'].browse(self._context.get('active_id'))
+    league = fields.Many2one('league.league',default=_default_league)
+    teams = fields.Many2many('league.team')
+    
+    @api.multi
+    def assign(self):
+     for w in self:
+      now_teams = w.league.teams.mapped('team')
+      new_teams = w.teams - now_teams     # Evitar equips duplicats
+      for i in new_teams:
+        self.env['league.points'].create({'league':w.league.id,'team':i.id})
+      return {
+            'type': 'ir.actions.client',
+            'tag': 'reload',
+             }
      
 class points(models.Model):
     _name = 'league.points'
     name = fields.Char(related='team.name', readonly=True)
-    league = fields.Many2one('league.league')
+    league = fields.Many2one('league.league', ondelete="cascade")
     logo = fields.Binary(related='team.logo')
-    team = fields.Many2one('league.team')
+    team = fields.Many2one('league.team', ondelete="cascade")
     points = fields.Integer(compute='_get_points')
     
     @api.depends('team','league')
@@ -37,7 +107,7 @@ class points(models.Model):
       for points in self:
         league = points.league
         team = points.team
-        matches = league.matches.filtered(lambda r: r.local.id == team.id or r.visitor.id == team.id)
+        matches = league.matches.filtered(lambda r: (r.local.id == team.id or r.visitor.id == team.id) and r.played == True)
         #print matches.mapped('name')
         p = 0 
         for m in matches:
@@ -70,7 +140,7 @@ class day(models.Model):
      for day in self:
        day.name=str(day.sequence)+"-"+str(day.league.name)
     sequence = fields.Integer()
-    league = fields.Many2one('league.league')
+    league = fields.Many2one('league.league',ondelete='cascade')
     matches = fields.One2many('league.match','day')
 	
 class match(models.Model):
@@ -79,15 +149,17 @@ class match(models.Model):
     @api.depends('local','visitor')
     def _get_name(self):
      for match in self:
-       match.name=str(match.local.name)+" vs "+str(match.visitor.name)    
+       #match.name=u''+str(match.local.name)+" vs "+str(match.visitor.name)    
+       match.name=u''.join((match.local.name,' vs ',match.visitor.name)).encode('utf-8')    
     date = fields.Datetime()
-    day = fields.Many2one('league.day')
+    day = fields.Many2one('league.day',ondelete='cascade')
     league = fields.Many2one(related='day.league', readonly=True)
     local = fields.Many2one('league.team')
     visitor = fields.Many2one('league.team')
     winner = fields.Many2one('league.team', compute='_get_winner')
     local_points = fields.Integer()
     visitor_points = fields.Integer()
+    played = fields.Boolean(default=False)
 
     @api.depends('local','visitor','local_points','visitor_points')
     def _get_winner(self):
