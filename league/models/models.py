@@ -11,6 +11,11 @@ class league(models.Model):
      start_date = fields.Date()
      end_date = fields.Date()
      teams = fields.One2many('league.points','league')
+     n_teams = fields.Integer(compute='_get_n_teams')
+     @api.depends('teams')
+     def _get_n_teams(self):
+      for league in self:
+       league.n_teams = len(league.teams)
      days = fields.One2many('league.day','league')
      classification = fields.Many2many('league.points', compute='_get_classification')     
 
@@ -74,6 +79,11 @@ class league(models.Model):
         aux.extend(teams[1:len(teams)-1])
         print aux
         teams = aux
+        
+     @api.one
+     def random_score(self):
+      for match in self.matches:
+          match.write({'local_points':random.randint(0,5),'visitor_points':random.randint(0,5),'played':True}) 
 
 class wizPoints(models.TransientModel):
     _name='league.wiz_points'
@@ -123,7 +133,7 @@ class team(models.Model):
 	_name = 'league.team'
 	name = fields.Char()
 	logo = fields.Binary()
-	points = fields.One2many('league.points','team') 
+	points = fields.One2many('league.points','team', readonly=True)
 	players = fields.One2many('league.player','team')
 	
 class player(models.Model):

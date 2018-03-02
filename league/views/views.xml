@@ -32,16 +32,18 @@
              <field name="name"/>
              <field name="start_date"/>
              <field name="end_date"/>
+		<field name="n_teams" invisible="True"/>
           </group>
           <group string="Actions">
-            <button name="create_calendar" string="Create Calendar" type="object" class="oe_highlight"/>
-	     <button name="%(launch_points_wizard)d" type="action" string="Select Teams" class="oe_highlight" />
+	    <button name="%(launch_points_wizard)d" type="action" string="Select Teams" class="oe_highlight" />
+            <button name="create_calendar" string="Create Calendar" type="object" class="oe_highlight" attrs="{'invisible':[('n_teams', '=', 0 )]}"/>
+            <button name="random_score" string="Random Scores" type="object" class="oe_highlight" attrs="{'invisible':[('n_teams', '=', 0 )]}"/>
           </group>
           </group>
           <notebook>
         	  <page string="Data">
 			<group>
-			<field name="teams" mode="kanban,tree">
+			<field name="teams" mode="kanban,tree" context="{'default_league':active_id}">
 			<tree><field name="name"/><field name="points"/></tree>
                 <kanban delete="true">
                     <templates>
@@ -73,6 +75,7 @@
                                             <field name="logo" widget="image" style="width:100px;"></field>
                                             <field name="name"></field>
                                             <field name="team"></field>
+                                            <field name="league"></field>
                                             <field name="points"></field>
 	</group>	</form>
 			</field>
@@ -147,7 +150,7 @@
           <notebook>
         	  <page string="Data">
 			<group>
-			<field name="players" mode="kanban,tree">
+			<field name="players" mode="kanban,tree" context="{'default_team':active_id}">
 			<tree><field name="name"/></tree>
                 <kanban delete="false">
                     <templates>
@@ -188,7 +191,127 @@
       </field>
     </record>
 
+    <record model="ir.ui.view" id="league.team_kanban">
+      <field name="name">Teams</field>
+      <field name="model">league.team</field>
+      <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                    <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+				<div class="o_kanban_image">
+                                <a type="open">
+                                    <img t-att-src="kanban_image('league.team', 'logo', record.id.value)" style="width:50px;"/>
+                                </a>
+				</div>
+                                <div class="oe_kanban_details">
+                                    <strong>
+                                        <a type="edit">
+                                            <field name="name"></field>
+                                        </a>
+                                    </strong>
+					<ul><li>
+                                      Players: <field name="players"></field>
+					</li></ul>
 
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+		</field>
+	</record>
+
+<!--  ############################ Vistes PLAYERS ################ -->
+
+    <record model="ir.ui.view" id="league.players_tree">
+      <field name="name">Players</field>
+      <field name="model">league.player</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="team"/>
+        </tree>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="league.player_form">
+      <field name="name">Players</field>
+      <field name="model">league.player</field>
+      <field name="arch" type="xml">
+        <form><sheet>
+          <group>
+          <field name="photo" widget="image" style="width:200px;"/>
+          <field name="name"/>
+          <field name="team"/>
+          </group>
+        </sheet></form>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="league.player_kanban">
+      <field name="name">Players</field>
+      <field name="model">league.player</field>
+      <field name="arch" type="xml">
+                <kanban>
+                    <templates>
+                    <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+				<div class="o_kanban_image">
+                                <a type="open">
+                                    <img t-att-src="kanban_image('league.player', 'photo', record.id.value)" style="width:50px;"/>
+                                </a>
+				</div>
+                                <div class="oe_kanban_details">
+                                    <strong>
+                                        <a type="edit">
+                                            <field name="name"></field>
+                                        </a>
+                                    </strong>
+					<ul><li>
+                                      Team: <field name="team"></field>
+					</li></ul>
+
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+		</field>
+	</record>
+
+<!--  ############################ Vistes matches ################ -->
+
+    <record model="ir.ui.view" id="league.match_tree">
+      <field name="name">Matches</field>
+      <field name="model">league.match</field>
+      <field name="arch" type="xml">
+        <tree>
+				<field name="name"/>
+				<field name="day"/>
+				<field name="local"/>
+				<field name="visitor"/>
+				<field name="local_points"/>
+				<field name="visitor_points"/>
+				<field name="played"/>
+        </tree>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="league.match_form">
+      <field name="name">Matches</field>
+      <field name="model">league.match</field>
+      <field name="arch" type="xml">
+        <form><sheet>
+          <group>
+				<field name="name"/>
+				<field name="day"/>
+				<field name="local"/>
+				<field name="visitor"/>
+				<field name="local_points"/>
+				<field name="visitor_points"/>
+				<field name="played"/>
+          </group>
+        </sheet></form>
+      </field>
+    </record>
     <record model="ir.actions.act_window" id="league.leagues_action_window">
       <field name="name">league window</field>
       <field name="res_model">league.league</field>
@@ -197,12 +320,12 @@
     <record model="ir.actions.act_window" id="league.teams_action_window">
       <field name="name">team window</field>
       <field name="res_model">league.team</field>
-      <field name="view_mode">tree,form</field>
+      <field name="view_mode">kanban,tree,form</field>
     </record>
     <record model="ir.actions.act_window" id="league.players_action_window">
       <field name="name">player window</field>
       <field name="res_model">league.player</field>
-      <field name="view_mode">tree,form</field>
+      <field name="view_mode">kanban,tree,form</field>
     </record>
     <record model="ir.actions.act_window" id="league.matches_action_window">
       <field name="name">match window</field>
