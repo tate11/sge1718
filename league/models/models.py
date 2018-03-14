@@ -160,7 +160,7 @@ class match(models.Model):
     def _get_name(self):
      for match in self:
        #match.name=u''+str(match.local.name)+" vs "+str(match.visitor.name)    
-       match.name=u''.join((match.local.name,' vs ',match.visitor.name)).encode('utf-8')    
+       match.name=u''.join((match.day.name,'- ',match.local.name,' vs ',match.visitor.name)).encode('utf-8')    
     date = fields.Datetime()
     day = fields.Many2one('league.day',ondelete='cascade')
     league = fields.Many2one(related='day.league', readonly=True)
@@ -180,4 +180,13 @@ class match(models.Model):
           match.winner = match.visitor.id
        else: 
           match.winner = False
+
+class ticket(models.Model):
+    _inherit = 'sale.order.line'
+    match = fields.Many2one('league.match')
+    local = fields.Many2one(related='match.local')
+    visitor = fields.Many2one(related='match.visitor')
+    logo_local = fields.Binary(related='match.local.logo')
+    logo_visitor = fields.Binary(related='match.visitor.logo')
+    is_ticket = fields.Boolean()
 

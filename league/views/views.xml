@@ -125,6 +125,17 @@
             </field>
         </record>
 
+    <record model="ir.ui.view" id="league.league_search">
+      <field name="name">Leagues</field>
+      <field name="model">league.league</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name"/>
+          <field name="start_date"/>
+          <field name="end_date"/>
+        </search>
+      </field>
+    </record>
 
 <!-- ######################VISTES DE TEAM #################### -->
 
@@ -222,6 +233,15 @@
 		</field>
 	</record>
 
+    <record model="ir.ui.view" id="league.team_search">
+      <field name="name">Leagues</field>
+      <field name="model">league.team</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name"/>
+        </search>
+      </field>
+    </record>
 <!--  ############################ Vistes PLAYERS ################ -->
 
     <record model="ir.ui.view" id="league.players_tree">
@@ -278,6 +298,17 @@
 		</field>
 	</record>
 
+    <record model="ir.ui.view" id="league.player_search">
+      <field name="name">Leagues</field>
+      <field name="model">league.player</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name"/>
+          <field name="team"/>
+	  <filter name="group_by_team" string="Team" context="{'group_by': 'team'}"/>
+        </search>
+      </field>
+    </record>
 <!--  ############################ Vistes matches ################ -->
 
     <record model="ir.ui.view" id="league.match_tree">
@@ -312,6 +343,88 @@
         </sheet></form>
       </field>
     </record>
+
+    <record model="ir.ui.view" id="league.match_search">
+      <field name="name">Matches</field>
+      <field name="model">league.match</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name"/>
+          <field name="day"/>
+          <field name="local"/>
+ 	  <field name="visitor"/>
+	  <filter name="played" string="Played" domain="[('played', '=', True)]"/>
+	  <filter name="group_by_league" string="League" context="{'group_by': 'league'}"/>
+	  <filter name="group_by_day" string="Day" context="{'group_by': 'day'}"/>
+	  <filter name="group_by_local" string="Local" context="{'group_by': 'local'}"/>
+	  <filter name="group_by_visitor" string="Visitor" context="{'group_by': 'visitor'}"/>
+        </search>
+      </field>
+    </record>
+
+<!--  ############################ Vistes TICKETS ################ -->
+
+    <record model="ir.ui.view" id="league.ticket_tree">
+      <field name="name">Tickets</field>
+      <field name="model">sale.order.line</field>
+      <field name="arch" type="xml">
+        <tree>
+				<field name="match"/>
+				<field name="local"/>
+				<field name="visitor"/>
+				<field name="is_ticket"/>
+        </tree>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="league.ticket_form">
+      <field name="name">Tickets</field>
+      <field name="model">sale.order.line</field>
+      <field name="arch" type="xml">
+        <form><sheet>
+          <group>
+				<field name="name"/>
+				<field name="match"/>
+				<field name="local"/>
+				<field name="visitor"/>
+				<field name="is_ticket"/>
+				<field name="logo_local"/>
+				<field name="logo_visitor"/>
+				<field name="order_id"/>
+				<field name="product_id"/>
+				<field name="product_uom_qty"/>
+          </group>
+        </sheet></form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="league.ticket_search">
+      <field name="name">Tickets</field>
+      <field name="model">sale.order.line</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name"/>
+          <field name="local"/>
+ 	  <field name="visitor"/>
+	  <filter name="group_by_match" string="Match" context="{'group_by': 'match'}"/>
+	  <filter name="group_by_local" string="Local" context="{'group_by': 'local'}"/>
+	  <filter name="group_by_visitor" string="Visitor" context="{'group_by': 'visitor'}"/>
+        </search>
+      </field>
+    </record>
+
+      <record id="league.ticket" model="product.template">
+            <field name="name">Ticket</field>
+            <field name="categ_id" ref="product.product_category_3"/>
+            <field name="standard_price">40</field>
+            <field name="list_price">90</field>
+            <field name="type">service</field>
+            <field name="uom_id" ref="product.product_uom_hour"/>
+            <field name="uom_po_id" ref="product.product_uom_hour"/>
+            <field name="description">Ticket for sale</field>
+            <field name="default_code">TICKET</field>
+        </record>
+
+
     <record model="ir.actions.act_window" id="league.leagues_action_window">
       <field name="name">league window</field>
       <field name="res_model">league.league</field>
@@ -332,6 +445,26 @@
       <field name="res_model">league.match</field>
       <field name="view_mode">tree,form</field>
     </record>
+    <record model="ir.actions.act_window" id="league.ticket_action_window">
+      <field name="name"> Ticket window</field>
+      <field name="res_model">sale.order.line</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[('is_ticket','=',True)]</field>
+    </record>
+
+<record model="ir.actions.act_window.view" id="league.ticket_action_tree">
+    <field eval="1" name="sequence"/>
+    <field name="view_mode">tree</field>
+    <field name="view_id" ref="league.ticket_tree"/>
+    <field name="act_window_id" ref="league.ticket_action_window"/>
+</record>
+ 
+<record model="ir.actions.act_window.view" id="league.ticket_action_form">
+    <field eval="2" name="sequence"/>
+    <field name="view_mode">form</field>
+    <field name="view_id" ref="league.ticket_form"/>
+    <field name="act_window_id" ref="league.ticket_action_window"/>
+</record>
     
     <menuitem name="League" id="league.menu_root"/>
 
@@ -345,8 +478,10 @@
               action="league.teams_action_window"/>
     <menuitem name="Players" id="league.menu_players" parent="league.menu_data"
               action="league.players_action_window"/>
-    <menuitem name="Matchs" id="league.menu_matches" parent="league.menu_data"
+    <menuitem name="Matches" id="league.menu_matches" parent="league.menu_data"
               action="league.matches_action_window"/>
+    <menuitem name="Tickets" id="league.menu_tickets" parent="league.menu_data"
+              action="league.ticket_action_window"/>
     
   </data>
 </odoo>
